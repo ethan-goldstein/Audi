@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audi - Your Cart</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Navigation Styles and Scripts -->
+    <link rel="stylesheet" href="css/navbar.css">
+    <script src="js/navbar-new.js" defer></script>
+    
+    <style>
+        :root {
+            --primary: #ffffff;
+            --secondary: #ff0000;
+            --dark: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --light-gray: #2a2a2a;
+            --text-light: #f0f0f0;
+            --text-muted: #888888;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 20px 40px;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .page-title:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background: var(--secondary);
+            bottom: -10px;
+            left: 20%;
+        }
+        
+        .cart-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .cart-item {
+            background: var(--dark-gray);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .cart-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.2);
+        }
+        
+        .item-image {
+            width: 200px;
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .item-details {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .item-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .item-model {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .item-price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .item-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .quantity-btn:hover {
+            background: var(--secondary);
+        }
+        
+        .quantity {
+            font-size: 1rem;
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .remove-btn {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .remove-btn:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .summary {
+            background: var(--dark-gray);
+            border-radius: 12px;
+            padding: 25px;
+            height: fit-content;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .summary-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .summary-details {
+            margin-bottom: 25px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .summary-total {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 25px 0;
+            padding-top: 15px;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .checkout-btn:hover {
+            background: #e60000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            grid-column: 1 / -1;
+        }
+        
+        .empty-cart i {
+            font-size: 4rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        
+        .empty-cart h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .empty-cart p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .continue-shopping {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--secondary);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .continue-shopping:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
+        }
+        
+        @media (max-width: 992px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary {
+                margin-top: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .cart-item {
+                flex-direction: column;
+            }
+            
+            .item-image {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .container {
+                padding-top: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cart Functionality -->
+    <script src="js/cart.js"></script>
+    
+    <!-- Navigation -->
+    <div id="navbar-container">
+        <nav class="futuristic-nav">
+            <div class="nav-container">
+                <div class="nav-back-container" id="navBackContainer">
+                    <a href="shop-backup-20250617.html" class="nav-back">
+                        <i class="fas fa-arrow-left"></i>
+                        <span>BACK</span>
+                    </a>
+                </div>
+                <div class="nav-logo">
+                    <a href="index.html">
+                        <img src="Images/AUDI.LOGO/audi.png" alt="Audi" class="logo">
+                    </a>
+                </div>
+                <div class="nav-links" id="mainNavLinks">
+                    <a href="index.html" class="nav-link">HOME</a>
+                    <a href="shop-backup-20250617.html" class="nav-link">SHOP</a>
+                    <a href="sedans.html" class="nav-link">SEDANS</a>
+                    <a href="suvs.html" class="nav-link">SUVS</a>
+                    <a href="electric.html" class="nav-link">ELECTRIC</a>
+                </div>
+                <div class="nav-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </div>
+    
+    <div class="container">
+        <h1 class="page-title">Your Cart</h1>
+        
+        <div class="cart-container">
+            <div class="cart-items">
+                <!-- Cart Item 1 -->
+                <div class="cart-item">
+                    <div class="item-image" style="background-image: url('assets/img/r8-white.png');"></div>
+                    <div class="item-details">
+                        <div>
+                            <div class="item-header">
+                                <div>
+                                    <h2 class="item-title">Audi R8</h2>
+                                    <p class="item-model">R8 V10 Performance</p>
+                                </div>
+                                <div class="item-price">$197,000</div>
+                            </div>
+                            <div class="item-specs">
+                                <p><i class="fas fa-tachometer-alt"></i> 201 MPH TOP SPEED</p>
+                                <p><i class="fas fa-bolt"></i> 562 HP</p>
+                                <p><i class="fas fa-stopwatch"></i> 0-60 IN 3.2S</p>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn">-</button>
+                                <span class="quantity">1</span>
+                                <button class="quantity-btn">+</button>
+                            </div>
+                            <button class="remove-btn">Remove</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cart Item 2 -->
+                <div class="cart-item">
+                    <div class="item-image" style="background-image: url('assets/img/rs7-blue.png');"></div>
+                    <div class="item-details">
+                        <div>
+                            <div class="item-header">
+                                <div>
+                                    <h2 class="item-title">Audi RS7</h2>
+                                    <p class="item-model">RS7 Sportback</p>
+                                </div>
+                                <div class="item-price">$114,000</div>
+                            </div>
+                            <div class="item-specs">
+                                <p><i class="fas fa-tachometer-alt"></i> 190 MPH TOP SPEED</p>
+                                <p><i class="fas fa-bolt"></i> 591 HP</p>
+                                <p><i class="fas fa-stopwatch"></i> 0-60 IN 3.5S</p>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn">-</button>
+                                <span class="quantity">1</span>
+                                <button class="quantity-btn">+</button>
+                            </div>
+                            <button class="remove-btn">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="summary">
+                <h2 class="summary-title">Order Summary</h2>
+                <div class="summary-details">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>$311,000</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>Free</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax</span>
+                        <span>Calculated at checkout</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span>$311,000</span>
+                    </div>
+                </div>
+                <button class="checkout-btn">Proceed to Checkout</button>
+                <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i class="fas fa-lock"></i> Secure Checkout
+                </p>
+            </div>
+        </div>
+        
+        <!-- Empty Cart State (Hidden by default) -->
+        <!-- 
+        <div class="empty-cart">
+            <i class="fas fa-shopping-cart"></i>
+            <h2>Your cart is empty</h2>
+            <p>Looks like you haven't added anything to your cart yet. Start shopping to find what you're looking for!</p>
+            <a href="shop.html" class="continue-shopping">Continue Shopping</a>
+        </div>
+        -->
+    </div>
+    
+    <script>
+        // Simple quantity controls
+        document.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const quantityElement = this.parentElement.querySelector('.quantity');
+                let quantity = parseInt(quantityElement.textContent);
+                
+                if (this.textContent === '+' && quantity < 10) {
+                    quantity++;
+                } else if (this.textContent === '-' && quantity > 1) {
+                    quantity--;
+                }
+                
+                quantityElement.textContent = quantity;
+                updateCartTotal();
+            });
+        });
+        
+        // Remove item
+        document.querySelectorAll('.remove-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                this.closest('.cart-item').style.animation = 'fadeOut 0.3s forwards';
+                setTimeout(() => {
+                    this.closest('.cart-item').remove();
+                    updateCartTotal();
+                    // Check if cart is empty and show empty state
+                    if (document.querySelectorAll('.cart-item').length === 0) {
+                        document.querySelector('.cart-container').innerHTML = `
+                            <div class="empty-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                                <h2>Your cart is empty</h2>
+                                <p>Looks like you haven't added anything to your cart yet. Start shopping to find what you're looking for!</p>
+                                <a href="shop.html" class="continue-shopping">Continue Shopping</a>
+                            </div>
+                        `;
+                    }
+                }, 300);
+            });
+        });
+        
+        // Update cart total
+        function updateCartTotal() {
+            let subtotal = 0;
+            
+            document.querySelectorAll('.cart-item').forEach(item => {
+                const price = parseFloat(item.querySelector('.item-price').textContent.replace(/[^0-9.]/g, ''));
+                const quantity = parseInt(item.querySelector('.quantity').textContent);
+                subtotal += price * quantity;
+            });
+            
+            document.querySelector('.summary-total span:last-child').textContent = `$${subtotal.toLocaleString()}`;
+            document.querySelector('.summary-row:first-child span:last-child').textContent = `$${subtotal.toLocaleString()}`;
+        }
+        
+        // Add animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                from { opacity: 1; transform: translateX(0); }
+                to { opacity: 0; transform: translateX(-20px); }
+            }
+            
+            .cart-item {
+                transition: all 0.3s ease;
+            }
+            
+            .cart-item.removing {
+                animation: fadeOut 0.3s forwards;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLeft = document.querySelector('.nav-left');
+            
+            if (menuToggle && navLeft) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navLeft.classList.toggle('active');
+                    menuToggle.classList.toggle('active');
+                    
+                    const icon = menuToggle.querySelector('i');
+                    if (icon) {
+                        if (navLeft.classList.contains('active')) {
+                            icon.classList.remove('fa-bars');
+                            icon.classList.add('fa-times');
+                        } else {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                });
+                
+                // Close menu when clicking on nav links
+                document.querySelectorAll('.nav-left .nav-button').forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (window.innerWidth <= 992) {
+                            navLeft.classList.remove('active');
+                            menuToggle.classList.remove('active');
+                            const icon = menuToggle.querySelector('i');
+                            if (icon) {
+                                icon.classList.remove('fa-times');
+                                icon.classList.add('fa-bars');
+                            }
+                        }
+                    });
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 992 && 
+                        !e.target.closest('.nav-left') && 
+                        !e.target.closest('.menu-toggle')) {
+                        navLeft.classList.remove('active');
+                        menuToggle.classList.remove('active');
+                        const icon = menuToggle.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                });
+            }
+            
+            // Update cart count from localStorage
+            updateCartCount();
+        });
+        
+        // Function to update cart count
+        function updateCartCount() {
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount) {
+                const cart = JSON.parse(localStorage.getItem('audiCart') || '[]');
+                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                cartCount.textContent = totalItems > 99 ? '99+' : totalItems;
+                cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+        }
+        
+        // Listen for cart updates
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'audiCart') {
+                updateCartCount();
+            }
+        });
+    </script>
+</body>
+</html>

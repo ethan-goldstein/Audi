@@ -1,0 +1,68 @@
+/* Cart animations */
+@keyframes cartBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Cart count badge animations */
+.cart-count {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.cart-count.cart-updated {
+    animation: cartBounce 0.5s ease;
+}
+
+/* Add to cart button animations */
+.home__button {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.home__button:active {
+    transform: scale(0.95);
+}
+
+.home__button.added::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: 24px;
+    color: #fff;
+    transition: transform 0.3s ease;
+}
+
+.home__button.added span {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.home__button.added::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Mobile menu animations */
+.nav-left {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth transitions for cart updates */
+.cart-item {
+    animation: slideInRight 0.4s ease-out forwards;
+    opacity: 0;
+}
+
+/* Stagger animations for cart items */
+.cart-item:nth-child(1) { animation-delay: 0.05s; }
+.cart-item:nth-child(2) { animation-delay: 0.1s; }
+.cart-item:nth-child(3) { animation-delay: 0.15s; }
+.cart-item:nth-child(4) { animation-delay: 0.2s; }
+.cart-item:nth-child(5) { animation-delay: 0.25s; }

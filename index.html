@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Audi - Future is an Attitude</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Navigation Styles and Scripts -->
+    <link rel="stylesheet" href="css/navbar.css">
+    <script src="js/navbar-new.js" defer></script>
+    
+    <!-- Styles -->
+    <style>
+        /* Reset and base styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { 
+            width: 100%; 
+            height: 100%; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            background-color: #000; 
+        }
+        
+        /* Navigation */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            z-index: 10000;
+            pointer-events: none;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            height: 100%;
+        }
+        
+        .nav-button {
+            background: rgba(0, 0, 0, 0.9);
+            color: white !important;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 12px 24px;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            pointer-events: auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-button i {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .audi-logo {
+            height: 80px; /* Reduced size */
+            width: auto; /* Maintain aspect ratio */
+            position: absolute;
+            top: 20px; /* Position from top */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Center the element */
+            pointer-events: auto;
+            z-index: 10001; /* Keep above other elements */
+        }
+        
+        /* Spline Container - smaller and centered */
+        .spline-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1; /* Below navigation but above background */
+        }
+        
+        spline-viewer {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="navbar-container">
+        <nav class="futuristic-nav">
+            <div class="nav-container">
+                <div class="nav-back-container" id="navBackContainer"></div>
+                <div class="nav-logo">
+                    <a href="index.html">
+                        <img src="Images/AUDI.LOGO/audi.png" alt="Audi" class="logo">
+                    </a>
+                </div>
+                <div class="nav-links" id="mainNavLinks">
+                    <a href="shop-backup-20250617.html" class="nav-link">SHOP</a>
+                    <a href="sedans.html" class="nav-link">SEDANS</a>
+                    <a href="suvs.html" class="nav-link">SUVS</a>
+                    <a href="electric.html" class="nav-link">ELECTRIC</a>
+                    <a href="contact.html" class="nav-link">CONTACT</a>
+                </div>
+                <div class="nav-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Spline Container -->
+    <div class="spline-container">
+        <!-- Spline 3D Viewer -->
+        <spline-viewer url="https://prod.spline.design/uY5b8j3PLDOjSSAZ/scene.splinecode" loading-anim></spline-viewer>
+    </div>
+
+    <!-- Spline Viewer Script -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.7/build/spline-viewer.js"></script>
+    
+    <!-- Ensure navigation stays on top -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Make sure the navigation stays on top after Spline loads
+            setTimeout(() => {
+                const nav = document.querySelector('.nav-overlay');
+                if (nav) {
+                    nav.style.zIndex = '2147483647';
+                }
+                
+                // Make Spline viewer non-interactive if it's blocking the nav
+                const splineViewer = document.querySelector('spline-viewer');
+                if (splineViewer && splineViewer.shadowRoot) {
+                    const iframe = splineViewer.shadowRoot.querySelector('iframe');
+                    if (iframe) {
+                        iframe.style.pointerEvents = 'none';
+                    }
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

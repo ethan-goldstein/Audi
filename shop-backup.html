@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Audi Models - Future of Luxury</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Navigation Styles and Scripts -->
+    <link rel="stylesheet" href="css/navbar.css">
+    <script src="js/navbar-new.js" defer></script>
+    
+    <!-- Spline Viewer -->
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.7/build/spline-viewer.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation will be inserted here by navbar-new.js -->
+    <div id="navbar-container">
+        <!-- Navigation will be loaded here -->
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="title-word">AUDI</span>
+                    <span class="title-word gradient-text">MODELS</span>
+                </h1>
+                <p class="hero-subtitle">Experience the future of automotive excellence</p>
+                <div class="hero-cta">
+                    <button class="cta-button">
+                        <span>Explore Collection</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="spline-container">
+                    <spline-viewer url="https://prod.spline.design/o6FesZxkSzs-P0yo/scene.splinecode"></spline-viewer>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audi Models Showcase -->
+    <section class="audi-showcase">
+        <div class="showcase-header">
+            <h2 class="showcase-title">Audi <span class="highlight">Model Range</span></h2>
+            <p class="showcase-subtitle">Experience the future of automotive excellence</p>
+        </div>
+        
+        <div class="showcase-grid">
+            <!-- Sedan -->
+            <a href="sedans.html" class="showcase-item sedan">
+                <div class="item-content">
+                    <span class="item-number">01</span>
+                    <h3 class="item-title">Sedans</h3>
+                    <p class="item-description">Precision engineering meets luxury in our sedan lineup</p>
+                    <div class="item-specs">
+                        <span><i class="fas fa-tachometer-alt"></i> 3.0L V6</span>
+                        <span><i class="fas fa-horse"></i> Up to 335 HP</span>
+                    </div>
+                </div>
+                <div class="item-image">
+                    <img src="assets/img/car-1.png" alt="Audi Sedan">
+                </div>
+                <div class="item-overlay"></div>
+            </a>
+            
+            <!-- SUV -->
+            <a href="suvs.html" class="showcase-item suv">
+                <div class="item-content">
+                    <span class="item-number">02</span>
+                    <h3 class="item-title">SUVs</h3>
+                    <p class="item-description">Command any terrain with confidence and style</p>
+                    <div class="item-specs">
+                        <span><i class="fas fa-tachometer-alt"></i> 3.0L V6</span>
+                        <span><i class="fas fa-horse"></i> Up to 500 HP</span>
+                    </div>
+                </div>
+                <div class="item-image">
+                    <img src="assets/img/car-2.png" alt="Audi SUV">
+                </div>
+                <div class="item-overlay"></div>
+            </a>
+            
+            <!-- Customs -->
+            <a href="customs.html" class="showcase-item customs">
+                <div class="item-content">
+                    <span class="item-number">03</span>
+                    <h3 class="item-title">Customs</h3>
+                    <p class="item-description">Tailor-made to your exact specifications</p>
+                    <div class="item-specs">
+                        <span><i class="fas fa-cogs"></i> Custom Builds</span>
+                        <span><i class="fas fa-star"></i> Exclusive Options</span>
+                    </div>
+                </div>
+                <div class="item-image">
+                    <img src="assets/img/car-3.png" alt="Audi Custom">
+                </div>
+                <div class="item-overlay"></div>
+            </a>
+        </div>
+    </section>
+    
+    <style>
+        /* Audi Showcase Styles */
+        .audi-showcase {
+            background: #0a0a12;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .showcase-header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .showcase-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .highlight {
+            color: #ff1801;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #ff1801;
+            border-radius: 3px;
+        }
+        
+        .showcase-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .showcase-item {
+            position: relative;
+            height: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px;
+            color: #fff;
+            text-decoration: none;
+            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+        }
+        
+        .showcase-item:hover {
+            transform: translateY(-15px);
+        }
+        
+        .showcase-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+            z-index: 1;
+            opacity: 0.7;
+            transition: opacity 0.5s ease;
+        }
+        
+        .showcase-item:hover::before {
+            opacity: 0.5;
+        }
+        
+        .item-content {
+            position: relative;
+            z-index: 2;
+            transform: translateY(20px);
+            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        .showcase-item:hover .item-content {
+            transform: translateY(0);
+        }
+        
+        .item-number {
+            display: inline-block;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+        }
+        
+        .item-title {
+            font-size: 2rem;
+            margin: 0 0 15px 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .item-description {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .item-specs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .item-specs span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .item-specs i {
+            color: #ff1801;
+        }
+        
+        .item-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        .showcase-item:hover .item-image {
+            transform: scale(1.05);
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        .item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,24,1,0.2), rgba(0,0,0,0.8));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+        }
+        
+        .showcase-item:hover .item-overlay {
+            opacity: 1;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .showcase-title {
+                font-size: 2.8rem;
+            }
+            
+            .showcase-item {
+                height: 450px;
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .showcase-grid {
+                grid-template-columns: 1fr;
+                padding: 0 20px;
+            }
+            
+            .showcase-title {
+                font-size: 2.2rem;
+            }
+            
+            .item-title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .showcase-item {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .showcase-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .showcase-item:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+    </style>
+
+    <style>
+        /* Futuristic Audi Showcase */
+        .audi-future {
+            background: #0a0a12;
+            color: #fff;
+            min-height: 100vh;
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        /* Animated Background Elements */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: 0;
+        }
+        
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: #ff0055;
+            top: -200px;
+            left: -200px;
+            animation: float 15s ease-in-out infinite;
+        }
+        
+        .showcase-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .showcase-header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+        
+        .showcase-title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 0 0 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            color: #fff;
+        }
+        
+        .highlight {
+            color: #ff1801;
+            position: relative;
+        }
+        
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #ff1801;
+            border-radius: 3px;
+        }
+        
+        .showcase-subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            margin-top: 15px;
+        }
+        
+        .model-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .model-card {
+            position: relative;
+            height: 500px;
+            perspective: 1000px;
+            cursor: pointer;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        
+        .model-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #ff1801, #ff8a00);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .model-card:hover::before {
+            opacity: 0.2;
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            background: rgba(20, 20, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .model-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            padding: 40px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-front {
+            justify-content: space-between;
+        }
+        
+        .card-back {
+            transform: rotateY(180deg);
+            justify-content: center;
+            align-items: center;
+            background: rgba(10, 10, 20, 0.9);
+        }
+        
+        .card-number {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        
+        .card-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0 30px;
+            color: #fff;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: #ff1801;
+            border-radius: 3px;
+        }
+        
+        .card-image {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .model-img {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+        
+        .model-card:hover .model-img {
+            transform: translateY(-10px) scale(1.1);
+        }
+        
+        .future-item:hover .future-img {
+            transform: translateY(0) scale(1.15);
+        }
+        
+        .card-hover {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 3;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .future-item:hover .card-hover {
+            opacity: 1;
+            transform: translateY(0);
+            background: linear-gradient(90deg, #ff0055, #9d00ff);
+        }
+        
+        .card-hover svg {
+            margin-left: 10px;
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+        
+        .future-item:hover .card-hover svg {
+            transform: translateX(5px);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(0, 20px); }
+        }
+        
+        .animate {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @media (max-width: 1200px) {
+            .future-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .future-item:last-child {
+                grid-column: 1 / -1;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .future-container {
+                padding: 0 20px;
+            }
+            
+            .title-line {
+                font-size: 1.2rem;
+                letter-spacing: 5px;
+            }
+            
+            .title-accent {
+                font-size: 3rem;
+            }
+            
+            .future-subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .future-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .future-item, 
+            .future-item:last-child {
+                max-width: 100%;
+                height: 450px;
+            }
+        }
+    </style>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Audi AG. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="shop.js"></script>
+</body>
+</html>

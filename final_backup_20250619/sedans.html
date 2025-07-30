@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <!--=============== FAVICON ===============-->
+      <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+
+      <!--=============== REMIXICONS ===============-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+
+      <!--=============== SWIPER CSS===============-->
+      <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
+
+      <!--=============== CSS ===============-->
+      <link rel="stylesheet" href="assets/css/styles.css">
+
+      <title>Responsive car website - Bedimcode</title>
+   </head>
+   <body>
+      <!--==================== HEADER ====================-->
+      <header class="header" id="header">
+         <div class="nav-overlay">
+            <div class="nav-container">
+               <a href="shop.html" class="nav-button">
+                  <i class="fas fa-arrow-left"></i> BACK
+               </a>
+               <a href="index.html" class="nav-button">
+                  <i class="fas fa-home"></i> HOME
+               </a>
+            </div>
+         </div>
+      </header>
+      
+      <style>
+         /* Custom styles for R8 image */
+         .home__article.car__orange .home__image {
+            transform: scale(0.7) translateY(5px);
+            margin-top: 5px;
+         }
+         
+         .home__article.car__orange .home__img {
+            max-width: 80%;
+            height: auto;
+         }
+         
+         .home__article.car__green .home__image {
+            transform: scale(0.75) translateY(20px);
+            margin-top: 20px;
+         }
+         
+         .home__article.car__green .home__img {
+            max-width: 75%;
+            height: auto;
+         }
+         
+         .home__article.car__blue .home__image {
+            transform: scale(0.8) translateY(30px);
+            margin-top: 30px;
+         }
+         
+         .home__article.car__blue .home__img {
+            max-width: 80%;
+            height: auto;
+         }
+         
+         /* Navigation */
+         .nav-overlay {
+             position: fixed;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 80px;
+             z-index: 10000;
+             pointer-events: none;
+         }
+         
+         .nav-container {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             padding: 20px 30px;
+             height: 100%;
+         }
+         
+         .nav-button {
+             background: rgba(0, 0, 0, 0.9);
+             color: white !important;
+             border: 1px solid rgba(255, 255, 255, 0.2);
+             border-radius: 50px;
+             padding: 10px 16px 10px 12px;
+             text-decoration: none;
+             font-family: 'Montserrat', sans-serif;
+             font-size: 13px;
+             font-weight: 500;
+             display: inline-flex;
+             align-items: center;
+             pointer-events: auto;
+             transition: all 0.3s ease;
+             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+             min-width: 80px;
+             justify-content: flex-start;
+         }
+         
+         .nav-button i {
+             margin-right: 8px;
+             font-size: 16px;
+         }
+         
+         .nav-button:hover {
+             transform: translateY(-2px);
+             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+         }
+      </style>
+
+      <!--==================== MAIN ====================-->
+      <main class="main">
+         <!--==================== HOME ====================-->
+         <section class="home">
+            <div class="home__swiper swiper">
+               <div class="swiper-wrapper">
+                  <article class="home__article car__orange swiper-slide">
+                     <div class="home__panel-1"></div>
+                     <div class="home__panel-2"></div>
+
+                     <div class="home__content container">
+                        <div class="home__data">
+                           <div class="home__titles">
+                              <h3 class="home__subtitle">R8</h3>
+                              <h1 class="home__title">AUDI</h1>
+                           </div>
+
+                           <div class="home__image">
+                              <img src="assets/img/r8-white.png" alt="Audi R8" class="home__img">
+                           </div>
+                        </div>
+
+                        <div class="home__info">
+                           <div class="home__specs">
+                              <span>302 MPH</span>
+                              <span>0 - 100 KM/H</span>
+                              <span>360 KW</span>
+                           </div>
+   
+                           <a href="#" class="home__button">
+                              <span>Discover More</span>
+                              <i class="ri-arrow-right-line"></i>
+                           </a>
+                        </div>
+                     </div>
+                  </article>
+
+                  <article class="home__article car__green swiper-slide">
+                     <div class="home__panel-1"></div>
+                     <div class="home__panel-2"></div>
+
+                     <div class="home__content container">
+                        <div class="home__data">
+                           <div class="home__titles">
+                              <h3 class="home__subtitle">A4</h3>
+                              <h1 class="home__title">AUDI</h1>
+                           </div>
+
+                           <div class="home__image">
+                              <img src="assets/img/a4-black.png" alt="Audi A4" class="home__img">
+                           </div>
+                        </div>
+
+                        <div class="home__info">
+                           <div class="home__specs">
+                              <span>302 MPH</span>
+                              <span>0 - 100 KM/H</span>
+                              <span>360 KW</span>
+                           </div>
+   
+                           <a href="#" class="home__button">
+                              <span>Discover More</span>
+                              <i class="ri-arrow-right-line"></i>
+                           </a>
+                        </div>
+                     </div>
+                  </article>
+
+                  <article class="home__article car__blue swiper-slide">
+                     <div class="home__panel-1"></div>
+                     <div class="home__panel-2"></div>
+
+                     <div class="home__content container">
+                        <div class="home__data">
+                           <div class="home__titles">
+                              <h3 class="home__subtitle">RS7</h3>
+                              <h1 class="home__title">AUDI</h1>
+                           </div>
+
+                           <div class="home__image">
+                              <img src="assets/img/rs7-blue.png" alt="Audi RS7" class="home__img">
+                           </div>
+                        </div>
+
+                        <div class="home__info">
+                           <div class="home__specs">
+                              <span>302 MPH</span>
+                              <span>0 - 100 KM/H</span>
+                              <span>360 KW</span>
+                           </div>
+   
+                           <a href="#" class="home__button">
+                              <span>Discover More</span>
+                              <i class="ri-arrow-right-line"></i>
+                           </a>
+                        </div>
+                     </div>
+                  </article>
+               </div>
+            </div>
+
+            <div class="home__interaction">
+               <!-- Pagination -->
+               <div class="swiper-pagination"></div>
+            </div>
+         </section>
+      </main>
+
+      <!--=============== GSAP JS ===============-->
+      <script src="assets/js/gsap.min.js"></script>
+
+      <!--=============== SWIPER JS ===============-->
+      <script src="assets/js/swiper-bundle.min.js"></script>
+      
+      <!--=============== MAIN JS ===============-->
+      <script src="assets/js/main.js"></script>
+      <script src="js/updateCarSpecs.js"></script>
+   </body>
+</html>

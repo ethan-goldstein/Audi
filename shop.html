@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audi - Future of Mobility</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --dark: #0a0a14;
+            --darker: #050508;
+            --light: #e0e0e8;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --glow: 0 0 10px rgba(0, 243, 255, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: var(--darker); color: var(--light); line-height: 1.6; overflow-x: hidden; }
+        
+        /* Navigation */
+        .nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 1.5rem 3rem;
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+            background: rgba(5, 5, 8, 0.8); backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 700;
+            color: var(--light); text-decoration: none; letter-spacing: 2px;
+            position: relative; padding: 0.5rem 1rem;
+        }
+        
+        .logo::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border: 2px solid var(--neon-blue); border-radius: 5px; box-shadow: var(--glow);
+            opacity: 0.5; transition: var(--transition);
+        }
+        
+        .nav-links { display: flex; gap: 2.5rem; }
+        .nav-link {
+            color: var(--light); text-decoration: none; font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;
+            position: relative; padding: 0.5rem 0; overflow: hidden;
+        }
+        
+        .cta-button {
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            color: var(--darker); border: none; padding: 0.8rem 2rem;
+            border-radius: 30px; font-family: 'Orbitron', sans-serif; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+            position: relative; overflow: hidden; z-index: 1; transition: var(--transition);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh; display: flex; align-items: center;
+            padding: 0 10%; position: relative; overflow: hidden;
+        }
+        
+        .hero-content { max-width: 600px; z-index: 2; }
+        .eyebrow {
+            font-family: 'Orbitron', sans-serif; color: var(--neon-blue);
+            text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem;
+            margin-bottom: 1.5rem; display: block; text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+        
+        .hero-title {
+            font-family: 'Orbitron', sans-serif; font-size: 4.5rem; font-weight: 700;
+            line-height: 1.1; margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--light), #a0a0b0);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem; color: #b0b0c0; margin-bottom: 3rem;
+            max-width: 500px; line-height: 1.8;
+        }
+        
+        .hero-image {
+            position: absolute; right: -10%; top: 50%; transform: translateY(-50%);
+            width: 70%; max-width: 1000px; z-index: 1; filter: drop-shadow(0 0 50px rgba(0, 243, 255, 0.2));
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(-50%) translateX(0); }
+            50% { transform: translateY(-50%) translateY(-20px); }
+        }
+        
+        /* Models Section */
+        .models-section { padding: 10rem 10%; position: relative; overflow: hidden; }
+        .section-header { text-align: center; margin-bottom: 5rem; }
+        .section-eyebrow {
+            font-family: 'Orbitron', sans-serif; color: var(--neon-blue);
+            text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem;
+            margin-bottom: 1rem; display: block;
+        }
+        
+        .section-title {
+            font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 700;
+            margin-bottom: 1.5rem; background: linear-gradient(to right, var(--light), #a0a0b0);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-transform: uppercase; letter-spacing: 2px;
+        }
+        
+        .models-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem; margin-top: 4rem;
+        }
+        
+        .model-card {
+            background: rgba(10, 10, 20, 0.5); border-radius: 15px; overflow: hidden;
+            position: relative; transition: var(--transition);
+            border: 1px solid rgba(0, 243, 255, 0.1); backdrop-filter: blur(10px);
+        }
+        
+        .model-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 243, 255, 0.1);
+            border-color: rgba(0, 243, 255, 0.3);
+        }
+        
+        .model-image { height: 250px; overflow: hidden; position: relative; }
+        .model-image img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .model-card:hover .model-image img { transform: scale(1.05); }
+        
+        .model-badge {
+            position: absolute; top: 1.5rem; left: 1.5rem;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            color: var(--darker); padding: 0.5rem 1rem; border-radius: 20px;
+            font-family: 'Orbitron', sans-serif; font-size: 0.8rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px; z-index: 2;
+        }
+        
+        .model-info { padding: 2rem; }
+        .model-name { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .model-price { color: var(--neon-blue); margin-bottom: 1.5rem; font-weight: 500; }
+        
+        .model-cta {
+            display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid rgba(0, 243, 255, 0.1); padding-top: 1.5rem;
+        }
+        
+        .view-details {
+            color: var(--light); text-decoration: none; font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
+            position: relative; padding-right: 1.5rem; transition: var(--transition);
+        }
+        
+        .view-details:hover { color: var(--neon-blue); padding-right: 2rem; }
+        
+        .add-to-cart {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            color: var(--darker); border: none; display: flex;
+            align-items: center; justify-content: center; cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .add-to-cart:hover { transform: rotate(90deg); box-shadow: 0 0 15px rgba(0, 243, 255, 0.5); }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { flex-direction: column; text-align: center; padding-top: 8rem; }
+            .hero-content { margin: 0 auto 4rem; text-align: center; }
+            .hero-title { font-size: 3rem; }
+            .hero-image { position: relative; right: auto; top: auto; transform: none; width: 100%; margin: 0 auto; }
+            .nav-links { display: none; }
+            .section-title { font-size: 2.5rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-title { font-size: 2.5rem; }
+            .section-title { font-size: 2rem; }
+            .models-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#" class="logo">AUDI</a>
+        <div class="nav-links">
+            <a href="#" class="nav-link active">Home</a>
+            <a href="#models" class="nav-link">Models</a>
+            <a href="#" class="nav-link">Technology</a>
+            <a href="#" class="nav-link">Experience</a>
+        </div>
+        <button class="cta-button">Build Yours</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="eyebrow">The Future is Now</span>
+            <h1 class="hero-title">Electric Performance Redefined</h1>
+            <p class="hero-subtitle">Experience the pinnacle of automotive innovation with Audi's cutting-edge electric vehicles. Where performance meets sustainability.</p>
+            <div style="display: flex; gap: 1rem;">
+                <button class="cta-button">Explore Models</button>
+                <button class="cta-button" style="background: transparent; color: var(--light); border: 2px solid var(--neon-blue);">Watch Film</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://www.audi.com/content/dam/gbp2/experience-audi/audi-sport/audi-sport-models/audi-e-tron-gt/2021/overview/1920x1080_AT3221_v-single-1920x1080.jpg" alt="Audi e-tron GT">
+        </div>
+    </section>
+
+    <!-- Models Section -->
+    <section id="models" class="models-section">
+        <div class="section-header">
+            <span class="section-eyebrow">Our Lineup</span>
+            <h2 class="section-title">Electric Excellence</h2>
+        </div>
+        
+        <div class="models-grid">
+            <!-- Model 1 -->
+            <div class="model-card">
+                <div class="model-badge">New</div>
+                <div class="model-image">
+                    <img src="https://www.audi.com/content/dam/gbp2/experience-audi/models/a6/e-tron-concept/1920x1080/1920x1080_AA1_181003.jpg" alt="Audi e-tron GT">
+                </div>
+                <div class="model-info">
+                    <h3 class="model-name">e-tron GT</h3>
+                    <p class="model-price">From $99,900</p>
+                    <div class="model-cta">
+                        <a href="#" class="view-details">View Details</a>
+                        <button class="add-to-cart">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model 2 -->
+            <div class="model-card">
+                <div class="model-badge">Popular</div>
+                <div class="model-image">
+                    <img src="https://www.audi.com/content/dam/gbp2/experience-audi/models/q4-e-tron/1920x1080/1920x1080_AA1_200331.jpg" alt="Audi Q4 e-tron">
+                </div>
+                <div class="model-info">
+                    <h3 class="model-name">Q4 e-tron</h3>
+                    <p class="model-price">From $43,900</p>
+                    <div class="model-cta">
+                        <a href="#" class="view-details">View Details</a>
+                        <button class="add-to-cart">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model 3 -->
+            <div class="model-card">
+                <div class="model-badge">Coming Soon</div>
+                <div class="model-image">
+                    <img src="https://www.audi.com/content/dam/gbp2/experience-audi/concept-cars/audi-grand-sphere/1920x1080/1920x1080_AA1_210928.jpg" alt="Audi Grandsphere Concept">
+                </div>
+                <div class="model-info">
+                    <h3 class="model-name">Grandsphere</h3>
+                    <p class="model-price">Coming 2024</p>
+                    <div class="model-cta">
+                        <a href="#" class="view-details">Learn More</a>
+                        <button class="add-to-cart">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Simple hover effect for model cards
+        document.querySelectorAll('.model-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--x', `${x}px`);
+                card.style.setProperty('--y', `${y}px`);
+                
+                const glow = document.createElement('div');
+                glow.className = 'glow';
+                glow.style.left = `${x}px`;
+                glow.style.top = `${y}px`;
+                card.appendChild(glow);
+                
+                setTimeout(() => {
+                    glow.remove();
+                }, 500);
+            });
+        });
+        
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
