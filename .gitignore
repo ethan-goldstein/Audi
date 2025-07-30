@@ -1,0 +1,17 @@
+# macOS system files
+.DS_Store
+.Trashes
+
+# Windsurf + cache
+Library/
+*.log
+*.db
+
+# Node/JS
+node_modules/
+
+# Python
+__pycache__/
+
+# VS Code
+.vscode/
