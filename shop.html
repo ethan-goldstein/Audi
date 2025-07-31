@@ -41,11 +41,60 @@
             opacity: 0.5; transition: var(--transition);
         }
         
-        .nav-links { display: flex; gap: 2.5rem; }
+        .nav-links { 
+            display: flex; 
+            gap: 0.5rem;
+            background: rgba(20, 20, 30, 0.7);
+            padding: 0.5rem;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
         .nav-link {
-            color: var(--light); text-decoration: none; font-family: 'Orbitron', sans-serif;
-            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;
-            position: relative; padding: 0.5rem 0; overflow: hidden;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 0.8rem 1.8rem;
+            background: transparent;
+            border-radius: 25px;
+            border: 2px solid transparent;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+            z-index: 1;
+        }
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 243, 255, 0.1), rgba(0, 100, 255, 0.1));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .nav-link:hover {
+            transform: translateY(-2px);
+            color: white;
+            box-shadow: 0 5px 20px rgba(0, 200, 255, 0.2);
+            border-color: rgba(0, 200, 255, 0.3);
+        }
+        .nav-link:hover::before {
+            opacity: 1;
+        }
+        .nav-link.active {
+            color: white;
+            background: linear-gradient(45deg, var(--neon-blue), #0066ff);
+            border-color: transparent;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.5);
+            font-weight: 700;
         }
         
         .cta-button {
@@ -73,9 +122,13 @@
         .hero-title {
             font-family: 'Orbitron', sans-serif; font-size: 4.5rem; font-weight: 700;
             line-height: 1.1; margin-bottom: 1.5rem;
-            background: linear-gradient(to right, var(--light), #a0a0b0);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-transform: uppercase; letter-spacing: 2px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent; /* Fallback for browsers that don't support text-fill-color */
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
         
         .hero-subtitle {
@@ -95,8 +148,8 @@
         }
         
         /* Models Section */
-        .models-section { padding: 10rem 10%; position: relative; overflow: hidden; }
-        .section-header { text-align: center; margin-bottom: 5rem; }
+        .models-section { padding: 6rem 10% 4rem; position: relative; overflow: hidden; }
+        .section-header { text-align: center; margin-bottom: 2rem; }
         .section-eyebrow {
             font-family: 'Orbitron', sans-serif; color: var(--neon-blue);
             text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem;
@@ -111,14 +164,68 @@
         }
         
         .models-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem; margin-top: 4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 2rem auto 0;
+            padding: 0 2rem;
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .model-card {
-            background: rgba(10, 10, 20, 0.5); border-radius: 15px; overflow: hidden;
-            position: relative; transition: var(--transition);
-            border: 1px solid rgba(0, 243, 255, 0.1); backdrop-filter: blur(10px);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            box-sizing: border-box;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .model-image {
+            width: 100%;
+            height: 200px;
+            min-height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+        
+        .model-card-link {
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        
+        .model-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+        }
+        
+        .model-card-link:hover .model-card {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
         }
         
         .model-card:hover {
@@ -127,9 +234,26 @@
             border-color: rgba(0, 243, 255, 0.3);
         }
         
-        .model-image { height: 250px; overflow: hidden; position: relative; }
-        .model-image img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
-        .model-card:hover .model-image img { transform: scale(1.05); }
+        .model-image { 
+            height: 200px;
+            min-height: 200px;
+            overflow: hidden; 
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .model-image img { 
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+        .model-card:hover .model-image img { 
+            transform: scale(1.05); 
+        }
         
         .model-badge {
             position: absolute; top: 1.5rem; left: 1.5rem;
@@ -174,102 +298,189 @@
             .hero-image { position: relative; right: auto; top: auto; transform: none; width: 100%; margin: 0 auto; }
             .nav-links { display: none; }
             .section-title { font-size: 2.5rem; }
+            .models-grid, .coming-soon-grid { 
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .section {
+                padding: 100px 1.5rem 1.5rem;
+            }
         }
         
         @media (max-width: 480px) {
             .hero-title { font-size: 2.5rem; }
             .section-title { font-size: 2rem; }
-            .models-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="nav">
-        <a href="#" class="logo">AUDI</a>
+        <a href="/" class="nav-link" style="color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.9rem; font-weight: 600; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 2px; padding: 0.8rem 1.5rem; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0.95; white-space: nowrap;"
+           onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.3)'; this.style.borderColor='rgba(255, 255, 255, 0.3)'; this.style.background='rgba(50, 50, 50, 0.7)'; this.style.opacity='1';"
+           onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.background='rgba(0, 0, 0, 0.25)'; this.style.opacity='0.95';">
+            <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>BACK
+        </a>
         <div class="nav-links">
-            <a href="#" class="nav-link active">Home</a>
-            <a href="#models" class="nav-link">Models</a>
-            <a href="#" class="nav-link">Technology</a>
-            <a href="#" class="nav-link">Experience</a>
+            <!-- Lineup Tab -->
+            <a href="#" class="nav-link active" onclick="(function(){
+                const target = document.querySelector('.models-section');
+                const headerHeight = document.querySelector('.nav').offsetHeight;
+                const offset = -100; // Adjust Lineup scroll position (higher = scrolls down more)
+                const topPos = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - offset;
+                window.scrollTo({top: topPos, behavior: 'smooth'});
+                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            })(); event.preventDefault();">Lineup</a>
+            
+            <!-- Commercial Tab -->
+            <a href="#" class="nav-link" onclick="(function(){
+                const target = document.querySelector('#commercial');
+                const headerHeight = document.querySelector('.nav').offsetHeight;
+                const offset = -100; // Adjust Commercial scroll position
+                const topPos = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - offset;
+                window.scrollTo({top: topPos, behavior: 'smooth'});
+                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            })(); event.preventDefault();">Commercial</a>
+            
+            <!-- Coming Soon Tab -->
+            <a href="#" class="nav-link" onclick="(function(){
+                const target = document.querySelector('#coming-soon');
+                const headerHeight = document.querySelector('.nav').offsetHeight;
+                const offset = -100; // Adjust Coming Soon scroll position
+                const topPos = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - offset;
+                window.scrollTo({top: topPos, behavior: 'smooth'});
+                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                this.classList.add('active');
+            })(); event.preventDefault();">Coming Soon</a>
         </div>
-        <button class="cta-button">Build Yours</button>
+        <a href="cart.html" class="nav-link" style="color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.9rem; font-weight: 600; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 2px; padding: 0.8rem 1.5rem; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0.95; white-space: nowrap; position: relative;"
+           onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.3)'; this.style.borderColor='rgba(255, 255, 255, 0.3)'; this.style.background='rgba(50, 50, 50, 0.7)'; this.style.opacity='1';"
+           onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.background='rgba(0, 0, 0, 0.25)'; this.style.opacity='0.95';">
+            <i class="fas fa-shopping-cart" style="margin-right: 0.5rem;"></i>CART
+            <span class="cart-count" style="display: none; position: absolute; top: -8px; right: -8px; background: var(--neon-blue); color: #000; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; align-items: center; justify-content: center; font-weight: bold;">0</span>
+        </a>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <span class="eyebrow">The Future is Now</span>
-            <h1 class="hero-title">Electric Performance Redefined</h1>
-            <p class="hero-subtitle">Experience the pinnacle of automotive innovation with Audi's cutting-edge electric vehicles. Where performance meets sustainability.</p>
-            <div style="display: flex; gap: 1rem;">
-                <button class="cta-button">Explore Models</button>
-                <button class="cta-button" style="background: transparent; color: var(--light); border: 2px solid var(--neon-blue);">Watch Film</button>
+    <!-- Lineup Hero Section -->
+    <section id="lineup" class="section active">
+        <div class="hero" style="position: relative; min-height: 100vh; display: flex; align-items: flex-start; padding-top: 15vh; overflow: hidden;">
+            <div class="hero-content" style="position: relative; z-index: 2; max-width: 50%; padding: 2rem; margin-top: 70px;">
+                <span class="eyebrow">Current Models</span>
+                <h1 class="hero-title">Audi Lineup</h1>
+                <p class="hero-subtitle">Explore our current selection of premium electric vehicles. Experience the perfect blend of performance, luxury, and sustainability.</p>
+            </div>
+            <!-- Spline 3D Viewer -->
+            <div style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); width: 60%; height: 80%; z-index: 1;">
+                <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.38/build/spline-viewer.js"></script>
+                <spline-viewer 
+                    url="https://prod.spline.design/o6FesZxkSzs-P0yo/scene.splinecode"
+                    loading-anim
+                    style="width: 100%; height: 100%;"
+                ></spline-viewer>
             </div>
         </div>
-        <div class="hero-image">
-            <img src="https://www.audi.com/content/dam/gbp2/experience-audi/audi-sport/audi-sport-models/audi-e-tron-gt/2021/overview/1920x1080_AT3221_v-single-1920x1080.jpg" alt="Audi e-tron GT">
+
+        <div class="models-section">
+        <div id="our-lineup" class="section-header">
+            <h2 class="section-title">Explore Our Models</h2>
+        </div>
+        
+        <div id="models-grid" class="models-grid">
+            <!-- Sedans Card -->
+            <a href="sedans.html" class="model-card-link">
+                <div class="model-card">
+                    <div class="model-badge">Featured</div>
+                    <div class="model-image">
+                        <img src="assets/img/r8-white.png" alt="Audi Sedans" style="height: 100%; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="model-info">
+                        <h3 class="model-name">Sedans</h3>
+                        <p class="model-price">Explore our luxury sedans</p>
+                        <div class="model-cta">
+                            <span class="view-details">View All Sedans <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- SUVs Card -->
+            <a href="suvs.html" class="model-card-link">
+                <div class="model-card">
+                    <div class="model-badge">Popular</div>
+                    <div class="model-image">
+                        <img src="assets/img/audi-q8.png" alt="Audi SUVs" style="height: 100%; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="model-info">
+                        <h3 class="model-name">SUVs</h3>
+                        <p class="model-price">Discover our versatile SUVs</p>
+                        <div class="model-cta">
+                            <span class="view-details">View All SUVs <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Electric Card -->
+            <a href="electric.html" class="model-card-link">
+                <div class="model-card">
+                    <div class="model-badge">Electric</div>
+                    <div class="model-image">
+                        <img src="assets/img/audi-etron.png" alt="Audi Electric" style="height: 100%; width: auto; object-fit: contain;">
+                    </div>
+                    <div class="model-info">
+                        <h3 class="model-name">Electric</h3>
+                        <p class="model-price">Experience the future</p>
+                        <div class="model-cta">
+                            <span class="view-details">Explore EV Lineup <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </a>
         </div>
     </section>
 
-    <!-- Models Section -->
-    <section id="models" class="models-section">
-        <div class="section-header">
-            <span class="section-eyebrow">Our Lineup</span>
-            <h2 class="section-title">Electric Excellence</h2>
+    <!-- Commercial Section -->
+    <section id="commercial" class="section">
+        <div class="hero" style="display: flex; align-items: center; gap: 2rem;">
+            <div class="hero-content" style="flex: 1; max-width: 50%; margin-right: 2rem;">
+                <span class="eyebrow">Audi Experience</span>
+                <h1 class="hero-title">The Future in Motion</h1>
+                <p class="hero-subtitle">Witness the innovation and performance that define the Audi brand. Our latest commercial showcases the future of electric mobility.</p>
+            </div>
+            <div style="flex: 1; position: relative; padding-bottom: 30%; border-radius: 15px; overflow: hidden; min-height: 300px;
+                box-shadow: 0 0 20px rgba(0, 243, 255, 0.3), 0 0 40px rgba(0, 243, 255, 0.2), 0 0 80px rgba(0, 243, 255, 0.1);
+                border: 1px solid rgba(0, 243, 255, 0.3);
+                background: linear-gradient(135deg, rgba(0, 243, 255, 0.1) 0%, rgba(0, 10, 20, 0.3) 50%, rgba(0, 243, 255, 0.1) 100%);
+                position: relative;
+                transition: all 0.3s ease-in-out;">
+                <img src="https://www.audi.com/content/dam/nemo/models/e-tron-gt/audi-e-tron-gt/overview/audi-e-tron-gt-overview-16x9-2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" alt="Audi Commercial">
+                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 243, 255, 0.2); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(5px);">
+                    <i class="fas fa-play" style="font-size: 2rem; color: white; margin-left: 5px;"></i>
+                </div>
+            </div>
         </div>
-        
-        <div class="models-grid">
-            <!-- Model 1 -->
-            <div class="model-card">
-                <div class="model-badge">New</div>
-                <div class="model-image">
-                    <img src="https://www.audi.com/content/dam/gbp2/experience-audi/models/a6/e-tron-concept/1920x1080/1920x1080_AA1_181003.jpg" alt="Audi e-tron GT">
-                </div>
-                <div class="model-info">
-                    <h3 class="model-name">e-tron GT</h3>
-                    <p class="model-price">From $99,900</p>
-                    <div class="model-cta">
-                        <a href="#" class="view-details">View Details</a>
-                        <button class="add-to-cart">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+    </section>
 
-            <!-- Model 2 -->
-            <div class="model-card">
-                <div class="model-badge">Popular</div>
-                <div class="model-image">
-                    <img src="https://www.audi.com/content/dam/gbp2/experience-audi/models/q4-e-tron/1920x1080/1920x1080_AA1_200331.jpg" alt="Audi Q4 e-tron">
-                </div>
-                <div class="model-info">
-                    <h3 class="model-name">Q4 e-tron</h3>
-                    <p class="model-price">From $43,900</p>
-                    <div class="model-cta">
-                        <a href="#" class="view-details">View Details</a>
-                        <button class="add-to-cart">
-                            <i class="fas fa-plus"></i>
-                        </button>
+    <!-- Coming Soon Section -->
+    <section id="coming-soon" class="section">
+        <div class="hero">
+            <div class="hero-content">
+                <span class="eyebrow">Coming Soon</span>
+                <h1 class="hero-title">Future Innovations</h1>
+                <p class="hero-subtitle">Get a first look at the next generation of Audi electric vehicles and technologies coming soon.</p>
+                
+                <div class="coming-soon-grid">
+                    <div class="coming-soon-item">
+                        <div class="coming-soon-image" style="background-image: url('assets/img/car-3.png');"></div>
+                        <h3>Audi Grandsphere</h3>
+                        <p>Arriving 2024</p>
                     </div>
-                </div>
-            </div>
-
-            <!-- Model 3 -->
-            <div class="model-card">
-                <div class="model-badge">Coming Soon</div>
-                <div class="model-image">
-                    <img src="https://www.audi.com/content/dam/gbp2/experience-audi/concept-cars/audi-grand-sphere/1920x1080/1920x1080_AA1_210928.jpg" alt="Audi Grandsphere Concept">
-                </div>
-                <div class="model-info">
-                    <h3 class="model-name">Grandsphere</h3>
-                    <p class="model-price">Coming 2024</p>
-                    <div class="model-cta">
-                        <a href="#" class="view-details">Learn More</a>
-                        <button class="add-to-cart">
-                            <i class="fas fa-plus"></i>
-                        </button>
+                    <div class="coming-soon-item">
+                        <div class="coming-soon-image" style="background-image: url('assets/img/car-1.png');"></div>
+                        <h3>Audi Skysphere</h3>
+                        <p>Coming Soon</p>
                     </div>
                 </div>
             </div>
@@ -298,7 +509,74 @@
                 }, 500);
             });
         });
-        
+
+        // Navigation and section handling
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show first section by default if no hash
+            const initialHash = window.location.hash || '#lineup';
+            showSection(initialHash);
+            
+            // Handle navigation clicks
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    window.location.hash = targetId;
+                    showSection(targetId);
+                });
+            });
+            
+            // Handle back/forward navigation
+            window.addEventListener('popstate', () => {
+                const hash = window.location.hash || '#lineup';
+                showSection(hash);
+            });
+            
+            // Function to show section and update navigation
+            function showSection(sectionId) {
+                // Remove active class from all nav links
+                document.querySelectorAll('.nav-link').forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                // Add active class to clicked nav link
+                const targetNavLink = document.querySelector(`.nav-link[href="${sectionId}"]`);
+                if (targetNavLink) targetNavLink.classList.add('active');
+                
+                // Direct scroll to position for Lineup tab
+                if (sectionId === '#our-lineup') {
+                    window.scrollTo({
+                        top: 200,  // Start with 200px from top
+                        behavior: 'smooth'
+                    });
+                    return;
+                }
+                
+                // Default behavior for other sections
+                const targetElement = document.querySelector(sectionId);
+                if (!targetElement) return;
+                
+                const headerHeight = document.querySelector('.nav').offsetHeight;
+                const scrollPosition = targetElement.offsetTop - headerHeight;
+                
+                // Use GSAP for smooth scrolling
+                gsap.to(window, {
+                    duration: 1.2,
+                    scrollTo: { y: scrollPosition, autoKill: false },
+                    ease: 'power2.inOut',
+                    onStart: () => {
+                        document.body.style.pointerEvents = 'none';
+                    },
+                    onComplete: () => {
+                        document.body.style.pointerEvents = 'auto';
+                    }
+                });
+                
+                // Update URL hash without triggering scroll
+                history.pushState(null, null, sectionId);
+            }
+        });
+
         // Smooth scroll for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -316,5 +594,53 @@
             });
         });
     </script>
+    
+    <!-- Include cart functionality -->
+    <script src="js/cart.js"></script>
+    
+    <script>
+        // Initialize cart count on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update cart count immediately
+            updateCartCount();
+            
+            // Add event listeners to all add-to-cart buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.disabled) return;
+                    
+                    const model = this.getAttribute('data-model');
+                    addToCart(model);
+                    
+                    // Visual feedback
+                    const originalHTML = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i>';
+                    this.style.backgroundColor = '#4CAF50';
+                    
+                    // Revert after animation
+                    setTimeout(() => {
+                        this.innerHTML = originalHTML;
+                        this.style.backgroundColor = '';
+                        updateCartCount();
+                    }, 1000);
+                });
+            });
+        });
+        
+        // Function to update cart count in the UI
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('audiCart') || '[]');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // Update cart count in the header
+            const cartCounts = document.querySelectorAll('.cart-count');
+            cartCounts.forEach(count => {
+                count.textContent = totalItems;
+                count.style.display = totalItems > 0 ? 'flex' : 'none';
+            });
+        }
+    </script>
+    <!-- Cart Functionality -->
+    <script src="js/cart.js"></script>
 </body>
 </html>
