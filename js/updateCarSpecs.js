@@ -1,28 +1,28 @@
 // Car specifications data for each model
 const carSpecs = {
-    'R8': {
-        acceleration: '0-60 IN 3.2S',
-        power: '562 HP',
+    'Q4 e-tron': {
+        acceleration: '0-60 IN 5.7S',
+        power: '295 HP',
         separator: '•',
-        price: 169900,
-        model: 'R8',
-        image: 'assets/img/r8-white.png'
+        price: 54900,
+        model: 'Q4 e-tron',
+        image: 'assets/img/ELECTRIC/AudiQ4ELECTRIC.avif.png'
     },
-    'A4': {
-        acceleration: '0-60 IN 5.2S',
-        power: '201 HP',
+    'Q6 e-tron': {
+        acceleration: '0-60 IN 5.0S',
+        power: '375 HP',
         separator: '•',
-        price: 39900,
-        model: 'A4',
-        image: 'assets/img/a4-black.png'
+        price: 72900,
+        model: 'Q6 e-tron',
+        image: 'assets/img/ELECTRIC/AudiQ6ELECTRIC.avif.png'
     },
-    'RS7': {
-        acceleration: '0-60 IN 3.5S',
-        power: '591 HP',
+    'RS e-tron GT': {
+        acceleration: '0-60 IN 3.1S',
+        power: '590 HP',
         separator: '•',
-        price: 114900,
-        model: 'RS7',
-        image: 'assets/img/rs7-blue.png'  // This matches the actual filename
+        price: 125900,
+        model: 'RS e-tron GT',
+        image: 'assets/img/ELECTRIC/AudiRS-GTELECTRIC.png'
     }
 };
 
