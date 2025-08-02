@@ -1,4 +1,4 @@
-// Cart functionality
+// Initialize cart when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize cart in localStorage if it doesn't exist
     if (!localStorage.getItem('audiCart')) {
@@ -8,63 +8,103 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update cart count on page load
     updateCartCount();
 
-    // Add event listeners to all Add to Cart buttons
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', function() {
-            if (this.disabled) return;
-            
-            const model = this.getAttribute('data-model');
-            const price = parseFloat(this.getAttribute('data-price')) || 0;
-            const image = this.getAttribute('data-image') || getModelImage(model);
-            
-            addToCart(model, price, image);
-            
-            // Visual feedback
-            const originalHTML = this.innerHTML;
-            this.innerHTML = '<i class="fas fa-check"></i>';
-            this.style.backgroundColor = '#4CAF50';
-            
-            // Revert after animation
-            setTimeout(() => {
-                this.innerHTML = originalHTML;
-                this.style.backgroundColor = '';
-                updateCartCount();
-            }, 1000);
-        });
+    // Add event delegation for Add to Cart buttons
+    document.addEventListener('click', function(e) {
+        const addToCartBtn = e.target.closest('.add-to-cart');
+        if (!addToCartBtn) return;
+        
+        e.preventDefault();
+        if (addToCartBtn.disabled) return;
+        
+        const model = addToCartBtn.getAttribute('data-model');
+        const price = parseFloat(addToCartBtn.getAttribute('data-price')) || getModelPrice(model);
+        const image = addToCartBtn.getAttribute('data-image') || 'assets/img/placeholder.jpg';
+        
+        addToCart(model, price, image);
+        
+        // Visual feedback
+        const originalHTML = addToCartBtn.innerHTML;
+        const originalBg = addToCartBtn.style.backgroundColor;
+        addToCartBtn.innerHTML = '<i class="fas fa-check"></i>';
+        addToCartBtn.style.backgroundColor = '#4CAF50';
+        addToCartBtn.disabled = true;
+        
+        // Revert after animation
+        setTimeout(() => {
+            addToCartBtn.innerHTML = originalHTML;
+            addToCartBtn.style.backgroundColor = originalBg;
+            addToCartBtn.disabled = false;
+            updateCartCount();
+        }, 1000);
     });
 
-    // If we're on the cart page, load the cart items
+    // If we're on the cart page, initialize cart functionality
     if (window.location.pathname.includes('cart.html')) {
         loadCartItems();
+        
+        // Add event delegation for cart controls
+        document.addEventListener('click', function(e) {
+            // Handle quantity buttons
+            const qtyBtn = e.target.closest('.quantity-btn');
+            if (qtyBtn && !qtyBtn.disabled) {
+                const index = parseInt(qtyBtn.getAttribute('data-index'));
+                const isPlus = qtyBtn.classList.contains('plus');
+                updateCartItem(index, isPlus ? 1 : -1);
+            }
+            
+            // Handle remove buttons
+            const removeBtn = e.target.closest('.remove-item');
+            if (removeBtn) {
+                const index = parseInt(removeBtn.getAttribute('data-index'));
+                removeFromCart(index);
+            }
+        });
     }
 });
 
-// Add item to cart
+/**
+ * Add item to cart
+ * @param {string} model - The model name of the car
+ * @param {number} price - The price of the car
+ * @param {string} image - The image URL of the car
+ */
 function addToCart(model, price, image) {
-    const cart = JSON.parse(localStorage.getItem('audiCart'));
-    const existingItem = cart.find(item => item.model === model && item.price === price);
-    
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({
-            model: model,
-            quantity: 1,
-            price: price,
-            image: image
-        });
+    try {
+        const cart = JSON.parse(localStorage.getItem('audiCart')) || [];
+        const existingItem = cart.find(item => item.model === model);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                model: model,
+                quantity: 1,
+                price: price,
+                image: image || 'assets/img/placeholder.jpg',
+                addedAt: new Date().toISOString()
+            });
+        }
+        
+        localStorage.setItem('audiCart', JSON.stringify(cart));
+        updateCartCount();
+        
+        // If we're on the cart page, reload the items
+        if (window.location.pathname.includes('cart.html')) {
+            loadCartItems();
+        }
+        
+        // Show notification
+        showNotification(`Added ${model} to cart`);
+        
+        // Notify other tabs
+        localStorage.setItem('cartUpdated', Date.now().toString());
+        
+        return true;
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        showNotification('Error adding item to cart', 'error');
+        return false;
     }
-    
-    localStorage.setItem('audiCart', JSON.stringify(cart));
-    updateCartCount();
-    
-    // If we're on the cart page, reload the items to update the display
-    if (window.location.pathname.includes('cart.html')) {
-        loadCartItems();
-    }
-    
-    // Notify other tabs
-    localStorage.setItem('cartUpdated', Date.now().toString());
 }
 
 // Get price based on model (fallback function if data-price is not set)
@@ -91,92 +131,134 @@ function getModelImage(model) {
     return images[model] || 'assets/img/placeholder.jpg';
 }
 
-// Update cart count in the header
+/**
+ * Update cart count in the header
+ */
 function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem('audiCart') || '[]');
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    
-    // Update cart count in the header
-    const cartCounts = document.querySelectorAll('.cart-count');
-    cartCounts.forEach(count => {
-        count.textContent = totalItems;
-        count.style.display = totalItems > 0 ? 'flex' : 'none';
-    });
+    try {
+        const cart = JSON.parse(localStorage.getItem('audiCart')) || [];
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        
+        // Update cart count in the header
+        const cartCounts = document.querySelectorAll('.cart-count');
+        cartCounts.forEach(count => {
+            // Add animation class when count changes
+            const currentCount = parseInt(count.textContent) || 0;
+            if (totalItems > currentCount) {
+                count.classList.add('bump');
+                setTimeout(() => count.classList.remove('bump'), 300);
+            }
+            
+            count.textContent = totalItems;
+            count.style.display = totalItems > 0 ? 'flex' : 'none';
+        });
+        
+        return totalItems;
+    } catch (error) {
+        console.error('Error updating cart count:', error);
+        return 0;
+    }
 }
 
-// Load cart items on the cart page
+/**
+ * Load cart items on the cart page
+ */
 function loadCartItems() {
-    const cart = JSON.parse(localStorage.getItem('audiCart') || '[]');
-    const cartItemsContainer = document.querySelector('.cart-items');
-    const cartSummary = document.querySelector('.cart-summary');
-    
-    if (!cartItemsContainer) return;
-    
-    if (cart.length === 0) {
+    try {
+        const cart = JSON.parse(localStorage.getItem('audiCart')) || [];
+        const cartItemsContainer = document.querySelector('.cart-items');
+        const cartSummary = document.querySelector('.cart-summary');
+        const checkoutBtn = document.querySelector('.checkout-btn');
+        
+        if (!cartItemsContainer) return;
+        
+        // Show loading state
         cartItemsContainer.innerHTML = `
-            <div class="empty-cart">
-                <i class="fas fa-shopping-cart"></i>
-                <h3>Your cart is empty</h3>
-                <p>Browse our models and add some items to your cart</p>
-                <a href="shop.html" class="btn">Shop Now</a>
+            <div class="loading-cart">
+                <div class="spinner"></div>
+                <p>Loading your cart...</p>
             </div>
         `;
-        if (cartSummary) cartSummary.style.display = 'none';
-        return;
-    }
-    
-    // Generate cart items HTML
-    let itemsHTML = '';
-    
-    cart.forEach((item, index) => {
-        const itemTotal = item.price * item.quantity;
         
-        itemsHTML += `
-            <div class="cart-item" data-model="${item.model}">
-                <div class="item-image">
-                    <img src="${item.image}" alt="${item.model}" onerror="this.onerror=null; this.src='assets/img/placeholder.jpg';">
-                </div>
-                <div class="item-details">
-                    <h3>Audi ${item.model}</h3>
-                    <p class="item-price">${formatCurrency(item.price)}</p>
-                    <div class="quantity-controls">
-                        <button class="quantity-btn minus" data-index="${index}" aria-label="Decrease quantity">-</button>
-                        <span class="quantity">${item.quantity}</span>
-                        <button class="quantity-btn plus" data-index="${index}" aria-label="Increase quantity">+</button>
-                    </div>
-                </div>
-                <div class="item-total">
-                    ${formatCurrency(itemTotal)}
-                    <button class="remove-item" data-index="${index}" aria-label="Remove item">
+        // Generate cart items HTML
+        let itemsHTML = '';
+        
+        cart.forEach((item, index) => {
+            const itemTotal = item.price * item.quantity;
+            const imageUrl = item.image || 'assets/img/placeholder.jpg';
+            
+            itemsHTML += `
+                <div class="cart-item" data-model="${escapeHtml(item.model)}">
+                    <button class="cart-item-remove" data-index="${index}" aria-label="Remove ${escapeHtml(item.model)}">
                         <i class="fas fa-times"></i>
                     </button>
+                    <div class="item-image">
+                        <img src="${escapeHtml(imageUrl)}" 
+                             alt="${escapeHtml(item.model)}" 
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src='assets/img/placeholder.jpg';">
+                    </div>
+                    <div class="item-details">
+                        <h3>Audi ${escapeHtml(item.model)}</h3>
+                        <p class="item-price">${formatCurrency(item.price)}</p>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn minus" data-index="${index}" 
+                                    aria-label="Decrease quantity" ${item.quantity <= 1 ? 'disabled' : ''}>
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="quantity-btn plus" data-index="${index}" 
+                                    aria-label="Increase quantity">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="item-total">
+                        ${formatCurrency(itemTotal)}
+                    </div>
                 </div>
-            </div>
-        `;
-    });
-    
-    cartItemsContainer.innerHTML = itemsHTML;
-    if (cartSummary) cartSummary.style.display = 'block';
-    
-    // Update the summary with calculated values
-    updateCartSummary();
-    
-    // Add event listeners for quantity controls
-    document.querySelectorAll('.quantity-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const index = parseInt(this.getAttribute('data-index'));
-            const isPlus = this.classList.contains('plus');
-            updateCartItem(index, isPlus ? 1 : -1);
+            `;
         });
-    });
-    
-    // Add event listeners for remove buttons
-    document.querySelectorAll('.remove-item').forEach(button => {
-        button.addEventListener('click', function() {
-            const index = parseInt(this.getAttribute('data-index'));
-            removeFromCart(index);
-        });
-    });
+        
+        // Update the DOM
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = `
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h2>Your cart is empty</h2>
+                    <p>Looks like you haven't added any Audi vehicles to your cart yet.</p>
+                    <a href="shop.html" class="shop-btn">
+                        <i class="fas fa-car"></i> Browse Vehicles
+                    </a>
+                </div>
+            `;
+            if (cartSummary) cartSummary.style.display = 'none';
+            if (checkoutBtn) checkoutBtn.disabled = true;
+        } else {
+            cartItemsContainer.innerHTML = itemsHTML;
+            if (cartSummary) cartSummary.style.display = 'block';
+            if (checkoutBtn) checkoutBtn.disabled = false;
+        }
+        
+        // Update the summary with calculated values
+        updateCartSummary();
+        
+    } catch (error) {
+        console.error('Error loading cart items:', error);
+        const cartItemsContainer = document.querySelector('.cart-items');
+        if (cartItemsContainer) {
+            cartItemsContainer.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Unable to load your cart</h3>
+                    <p>There was an error loading your cart. Please try refreshing the page.</p>
+                    <button class="btn" onclick="window.location.reload()">
+                        <i class="fas fa-sync-alt"></i> Refresh Page
+                    </button>
+                </div>
+            `;
+        }
+    }
 }
 
 // Helper function to format currency
@@ -189,21 +271,61 @@ function formatCurrency(amount) {
     }).format(amount);
 }
 
-// Update item quantity in cart
+/**
+ * Update item quantity in cart
+ * @param {number} index - The index of the item in the cart
+ * @param {number} change - The amount to change the quantity by (1 or -1)
+ */
 function updateCartItem(index, change) {
-    const cart = JSON.parse(localStorage.getItem('audiCart'));
-    
-    if (index >= 0 && index < cart.length) {
-        cart[index].quantity = Math.max(1, cart[index].quantity + change);
+    try {
+        const cart = JSON.parse(localStorage.getItem('audiCart')) || [];
         
-        // Update the cart in localStorage
-        localStorage.setItem('audiCart', JSON.stringify(cart));
-        
-        // Update the cart display
-        updateCartDisplay();
-        
-        // Notify other tabs
-        localStorage.setItem('cartUpdated', Date.now().toString());
+        if (index >= 0 && index < cart.length) {
+            const item = cart[index];
+            const newQuantity = Math.max(1, item.quantity + change);
+            
+            // If quantity didn't change, do nothing
+            if (newQuantity === item.quantity) return;
+            
+            // Update quantity
+            item.quantity = newQuantity;
+            
+            // Update the cart in localStorage
+            localStorage.setItem('audiCart', JSON.stringify(cart));
+            
+            // Update the display
+            const quantityElement = document.querySelector(`.cart-item[data-model="${escapeHtml(item.model)}"] .quantity`);
+            const totalElement = document.querySelector(`.cart-item[data-model="${escapeHtml(item.model)}"] .item-total`);
+            
+            if (quantityElement) {
+                quantityElement.textContent = newQuantity;
+                
+                // Disable minus button if quantity is 1
+                const minusBtn = quantityElement.previousElementSibling;
+                if (minusBtn) {
+                    minusBtn.disabled = newQuantity <= 1;
+                }
+            }
+            
+            if (totalElement) {
+                totalElement.textContent = formatCurrency(item.price * newQuantity);
+            }
+            
+            // Update the summary
+            updateCartSummary();
+            
+            // Update the cart count in the header
+            updateCartCount();
+            
+            // Show notification
+            showNotification(`Updated ${item.model} quantity to ${newQuantity}`);
+            
+            // Notify other tabs
+            localStorage.setItem('cartUpdated', Date.now().toString());
+        }
+    } catch (error) {
+        console.error('Error updating cart item:', error);
+        showNotification('Error updating cart item', 'error');
     }
 }
 
@@ -339,3 +461,52 @@ window.addEventListener('storage', function(e) {
         }
     }
 });
+
+/**
+ * Show a notification to the user
+ * @param {string} message - The message to display
+ * @param {string} [type='success'] - The type of notification (success, error, info, warning)
+ */
+function showNotification(message, type = 'success') {
+    // Create notification container if it doesn't exist
+    let notificationContainer = document.getElementById('notification-container');
+    if (!notificationContainer) {
+        notificationContainer = document.createElement('div');
+        notificationContainer.id = 'notification-container';
+        document.body.appendChild(notificationContainer);
+    }
+    
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    // Add to container
+    notificationContainer.appendChild(notification);
+    
+    // Auto-remove after delay
+    setTimeout(() => {
+        notification.classList.add('fade-out');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+/**
+ * Escape HTML to prevent XSS
+ * @param {string} str - The string to escape
+ * @returns {string} The escaped string
+ */
+function escapeHtml(str) {
+    if (!str) return '';
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}

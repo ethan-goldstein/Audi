@@ -534,6 +534,240 @@
                 height: 300px;
             }
         }
+        
+        /* Cart Summary Section */
+        .cart-summary-section {
+            background: #0f0f0f;
+            padding: 40px 0;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+        }
+        
+        .cart-summary-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .cart-summary-section h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #0066cc, #00ccff);
+            border-radius: 3px;
+        }
+        
+        .cart-items {
+            margin-bottom: 30px;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .cart-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(0, 150, 255, 0.3);
+        }
+        
+        .item-image {
+            width: 100px;
+            height: 60px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 20px;
+            background: #1a1a1a;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .item-details {
+            flex: 1;
+        }
+        
+        .item-details h3 {
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .item-price {
+            color: #00ccff;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+        
+        .quantity-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .quantity-btn:hover {
+            background: rgba(0, 150, 255, 0.5);
+        }
+        
+        .quantity {
+            margin: 0 10px;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .item-total {
+            font-weight: 700;
+            color: #fff;
+            margin-left: 20px;
+            min-width: 100px;
+            text-align: right;
+            position: relative;
+        }
+        
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ff4d4d;
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .remove-item:hover {
+            color: #ff1a1a;
+            transform: scale(1.2);
+        }
+        
+        .cart-summary {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #aaa;
+        }
+        
+        .summary-row.total {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.2rem;
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        
+        .empty-cart i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+        
+        .empty-cart h3 {
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .empty-cart p {
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #0066cc, #00ccff);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 150, 255, 0.3);
+        }
+        
+        .btn-primary {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+            background: linear-gradient(45deg, #0066cc, #00ccff);
+        }
+        
+        @media (max-width: 768px) {
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .item-image {
+                margin: 0 auto 15px;
+            }
+            
+            .item-details {
+                margin-bottom: 15px;
+            }
+            
+            .item-total {
+                margin: 15px 0 0;
+                text-align: center;
+                width: 100%;
+            }
+            
+            .quantity-controls {
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -599,7 +833,5 @@
             });
         });
     </script>
-    
-    <!-- Content removed as requested -->
 </body>
 </html>
