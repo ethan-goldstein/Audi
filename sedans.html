@@ -22,15 +22,15 @@
       <!-- Navigation -->
       <nav class="nav" style="position: fixed; top: 2rem; left: 0; right: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
          <div style="display: flex; gap: 1rem; margin-left: calc(50% - 150px);">
-            <a href="shop.html" class="nav-link" style="color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.9rem; font-weight: 600; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 2px; padding: 0.8rem 1.5rem; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0.95; white-space: nowrap;"
+            <a href="shop.html" class="nav-link" style="color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.9rem; font-weight: 600; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 1px; padding: 0.6rem 1.2rem; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0.95; display: inline-flex; align-items: center;"
                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.3)'; this.style.borderColor='rgba(255, 255, 255, 0.3)'; this.style.background='rgba(50, 50, 50, 0.7)'; this.style.opacity='1';"
                onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.background='rgba(0, 0, 0, 0.25)'; this.style.opacity='0.95';">
-               <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>BACK
+               <i class="fas fa-arrow-left" style="margin-right: 6px; font-size: 0.8rem;"></i>BACK
             </a>
-            <a href="index.html" class="nav-link" style="color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.9rem; font-weight: 600; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 2px; padding: 0.8rem 1.5rem; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0.95;"
+            <a href="index.html" class="nav-link" style="color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.9rem; font-weight: 600; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 1px; padding: 0.6rem 1.2rem; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0.95; display: inline-flex; align-items: center;"
                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.3)'; this.style.borderColor='rgba(255, 255, 255, 0.3)'; this.style.background='rgba(50, 50, 50, 0.7)'; this.style.opacity='1';"
                onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.background='rgba(0, 0, 0, 0.25)'; this.style.opacity='0.95';">
-               <i class="fas fa-home" style="margin-right: 0.5rem;"></i>HOME
+               <i class="fas fa-home" style="margin-right: 6px; font-size: 0.8rem;"></i>HOME
             </a>
          </div>
          <a href="cart.html" class="nav-link" style="color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.9rem; font-weight: 600; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 2px; padding: 0.8rem 1.5rem; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0.95; position: relative; margin-right: 2rem;"
@@ -207,6 +207,49 @@
          /* Ensure speed text is white and visible */
          .home__specs {
              color: white !important;
+             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+         }
+         
+         .home__specs {
+             position: relative;
+             height: 60px;
+             overflow: hidden;
+             text-align: center;
+             margin: 1rem 0;
+         }
+         
+         .spec-item {
+             position: absolute;
+             width: 100%;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             justify-content: center;
+             opacity: 0;
+             transition: opacity 0.5s ease, transform 0.5s ease;
+             transform: translateY(20px);
+         }
+         
+         .spec-item.active {
+             opacity: 1;
+             transform: translateY(0);
+         }
+         
+         .spec-item.fade-in {
+             opacity: 1;
+             transform: translateY(0);
+         }
+         
+         .spec-item.fade-out {
+             opacity: 0;
+             transform: translateY(-20px);
+         }
+         
+         .spec-value {
+             font-size: 1.5rem;
+             font-weight: 700;
+             color: white;
+             margin-bottom: 0.25rem;
              text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
          }
          

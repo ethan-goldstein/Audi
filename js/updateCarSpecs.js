@@ -1,28 +1,61 @@
 // Car specifications data for each model
 const carSpecs = {
-    'Q4 e-tron': {
-        acceleration: '0-60 IN 5.7S',
-        power: '295 HP',
-        separator: '•',
-        price: 54900,
-        model: 'Q4 e-tron',
-        image: 'assets/img/ELECTRIC/AudiQ4ELECTRIC.avif.png'
-    },
-    'Q6 e-tron': {
-        acceleration: '0-60 IN 5.0S',
-        power: '375 HP',
-        separator: '•',
-        price: 72900,
-        model: 'Q6 e-tron',
-        image: 'assets/img/ELECTRIC/AudiQ6ELECTRIC.avif.png'
-    },
-    'RS e-tron GT': {
+    // Sedan Models
+    'R8': {
         acceleration: '0-60 IN 3.1S',
-        power: '590 HP',
-        separator: '•',
-        price: 125900,
-        model: 'RS e-tron GT',
-        image: 'assets/img/ELECTRIC/AudiRS-GTELECTRIC.png'
+        power: '591 HP',
+        topSpeed: '205 MPH',
+        price: 147900,
+        model: 'R8',
+        image: 'assets/img/SEDAN\'S/r8-white.png',
+        specs: '0-60 IN 3.1S • 591 HP'
+    },
+    'A4': {
+        acceleration: '0-60 IN 5.2S',
+        power: '201 HP',
+        topSpeed: '130 MPH',
+        price: 42900,
+        model: 'A4',
+        image: 'assets/img/SEDAN\'S/a4-black.png',
+        specs: '0-60 IN 5.2S • 201 HP'
+    },
+    'RS7': {
+        acceleration: '0-60 IN 3.5S',
+        power: '591 HP',
+        topSpeed: '190 MPH',
+        price: 114900,
+        model: 'RS7',
+        image: 'assets/img/SEDAN\'S/rs7-blue.png',
+        specs: '0-60 IN 3.5S • 591 HP'
+    },
+    
+    // SUV Models
+    'Q8': {
+        acceleration: '0-60 IN 5.6S',
+        power: '335 HP',
+        topSpeed: '130 MPH',
+        price: 72900,
+        model: 'Q8',
+        image: 'assets/img/SUV\'S/AudiQ8SUV.jpg.avif',
+        specs: '0-60 IN 5.6S • 335 HP'
+    },
+    'RS Q8': {
+        acceleration: '0-60 IN 3.7S',
+        power: '591 HP',
+        topSpeed: '190 MPH',
+        price: 114900,
+        model: 'RS Q8',
+        image: 'assets/img/SUV\'S/AudiSQ7SUV.png',
+        specs: '0-60 IN 3.7S • 591 HP'
+    },
+    'e-tron': {
+        acceleration: '0-60 IN 5.5S',
+        power: '355 HP',
+        topSpeed: '124 MPH',
+        price: 69900,
+        model: 'e-tron',
+        image: 'assets/img/SUV\'S/AudiQ7SUV.png',
+        specs: '0-60 IN 5.5S • 355 HP • 222 MI RANGE'
     }
 };
 
@@ -35,23 +68,37 @@ function updateSlideSpecs(slide) {
     if (!subtitle) return;
     
     const model = subtitle.textContent.trim();
-    const specs = carSpecs[model];
-    if (!specs) return;
+    const car = carSpecs[model];
+    if (!car) return;
     
     // Update the specs in the DOM
     const specsContainer = slide.querySelector('.home__specs');
-    if (specsContainer) {
-        specsContainer.innerHTML = [
-            `<span>${specs.acceleration}</span>`,
-            `<span>${specs.separator}</span>`,
-            `<span>${specs.power}</span>`
-        ].join(' ');
+    if (specsContainer && car.specs) {
+        // Split the specs string into parts and create spans for each part
+        const parts = car.specs.split(' • ');
+        specsContainer.innerHTML = '';
+        
+        parts.forEach((part, index) => {
+            const span = document.createElement('span');
+            span.textContent = part;
+            
+            // Add bullet separator between items, but not after the last one
+            if (index < parts.length - 1) {
+                const bullet = document.createElement('span');
+                bullet.textContent = ' • ';
+                bullet.style.margin = '0 5px';
+                specsContainer.appendChild(span);
+                specsContainer.appendChild(bullet);
+            } else {
+                specsContainer.appendChild(span);
+            }
+        });
     }
     
     // Update the image if it exists
     const image = slide.querySelector('.home__img');
-    if (image && specs.image) {
-        image.src = specs.image;
+    if (image && car.image) {
+        image.src = car.image;
         image.alt = `Audi ${model}`;
     }
 }
