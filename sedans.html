@@ -19,25 +19,27 @@
       <title>Responsive car website - Bedimcode</title>
    </head>
    <body>
-      <!--==================== HEADER ====================-->
-      <header class="header" id="header">
-         <div class="nav-overlay">
-            <div class="nav-container">
-               <div class="nav-buttons">
-                  <a href="shop.html" class="nav-button">
-                     <i class="fas fa-arrow-left"></i> BACK
-                  </a>
-                  <a href="index.html" class="nav-button">
-                     <i class="fas fa-home"></i> HOME
-                  </a>
-               </div>
-               <a href="cart.html" class="cart-icon">
-                  <i class="ri-shopping-cart-line"></i>
-                  <span class="cart-count">0</span>
-               </a>
-            </div>
+      <!-- Navigation -->
+      <nav class="nav" style="position: fixed; top: 2rem; left: 0; right: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem;">
+         <div style="display: flex; gap: 1rem; margin-left: calc(50% - 150px);">
+            <a href="shop.html" class="nav-link" style="color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.9rem; font-weight: 600; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 2px; padding: 0.8rem 1.5rem; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0.95; white-space: nowrap;"
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.3)'; this.style.borderColor='rgba(255, 255, 255, 0.3)'; this.style.background='rgba(50, 50, 50, 0.7)'; this.style.opacity='1';"
+               onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.background='rgba(0, 0, 0, 0.25)'; this.style.opacity='0.95';">
+               <i class="fas fa-arrow-left" style="margin-right: 0.5rem;"></i>BACK
+            </a>
+            <a href="index.html" class="nav-link" style="color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.9rem; font-weight: 600; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 2px; padding: 0.8rem 1.5rem; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0.95;"
+               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.3)'; this.style.borderColor='rgba(255, 255, 255, 0.3)'; this.style.background='rgba(50, 50, 50, 0.7)'; this.style.opacity='1';"
+               onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.background='rgba(0, 0, 0, 0.25)'; this.style.opacity='0.95';">
+               <i class="fas fa-home" style="margin-right: 0.5rem;"></i>HOME
+            </a>
          </div>
-      </header>
+         <a href="cart.html" class="nav-link" style="color: rgba(255, 255, 255, 0.9); text-decoration: none; font-size: 0.9rem; font-weight: 600; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 2px; padding: 0.8rem 1.5rem; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.15); transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); opacity: 0.95; position: relative; margin-right: 2rem;"
+            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 15px rgba(0, 0, 0, 0.3)'; this.style.borderColor='rgba(255, 255, 255, 0.3)'; this.style.background='rgba(50, 50, 50, 0.7)'; this.style.opacity='1';"
+            onmouseout="this.style.transform=''; this.style.boxShadow=''; this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.background='rgba(0, 0, 0, 0.25)'; this.style.opacity='0.95';">
+            <i class="ri-shopping-cart-line"></i>
+            <span class="cart-count" style="position: absolute; top: -8px; right: -8px; background: #00f3ff; color: #000; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700;">0</span>
+         </a>
+      </nav>
       
       <style>
          /* Light gray text for Audi and model names */
@@ -239,7 +241,7 @@
                            </div>
 
                            <div class="home__image">
-                              <img src="assets/img/r8-white.png" alt="Audi R8" class="home__img">
+                              <img src="assets/img/SEDAN'S/r8-white.png" alt="Audi R8" class="home__img">
                            </div>
                         </div>
 
@@ -270,7 +272,7 @@
                            </div>
 
                            <div class="home__image">
-                              <img src="assets/img/a4-black.png" alt="Audi A4" class="home__img">
+                              <img src="assets/img/SEDAN'S/a4-black.png" alt="Audi A4" class="home__img">
                            </div>
                         </div>
 
@@ -301,7 +303,7 @@
                            </div>
 
                            <div class="home__image">
-                              <img src="assets/img/rs7-blue.png" alt="Audi RS7" class="home__img">
+                              <img src="assets/img/SEDAN'S/rs7-blue.png" alt="Audi RS7" class="home__img">
                            </div>
                         </div>
 

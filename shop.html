@@ -393,7 +393,7 @@
                 <div class="model-card">
                     <div class="model-badge">Featured</div>
                     <div class="model-image">
-                        <img src="assets/img/r8-white.png" alt="Audi Sedans" style="height: 100%; width: auto; object-fit: contain;">
+                        <img src="assets/img/SEDAN'S/r8-white.png" alt="Audi Sedans" style="height: 100%; width: auto; object-fit: contain;">
                     </div>
                     <div class="model-info">
                         <h3 class="model-name">Sedans</h3>
@@ -449,16 +449,24 @@
                 <h1 class="hero-title">The Future in Motion</h1>
                 <p class="hero-subtitle">Witness the innovation and performance that define the Audi brand. Our latest commercial showcases the future of electric mobility.</p>
             </div>
-            <div style="flex: 1; position: relative; padding-bottom: 30%; border-radius: 15px; overflow: hidden; min-height: 300px;
-                box-shadow: 0 0 20px rgba(0, 243, 255, 0.3), 0 0 40px rgba(0, 243, 255, 0.2), 0 0 80px rgba(0, 243, 255, 0.1);
-                border: 1px solid rgba(0, 243, 255, 0.3);
-                background: linear-gradient(135deg, rgba(0, 243, 255, 0.1) 0%, rgba(0, 10, 20, 0.3) 50%, rgba(0, 243, 255, 0.1) 100%);
-                position: relative;
-                transition: all 0.3s ease-in-out;">
-                <img src="https://www.audi.com/content/dam/nemo/models/e-tron-gt/audi-e-tron-gt/overview/audi-e-tron-gt-overview-16x9-2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;" alt="Audi Commercial">
-                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 243, 255, 0.2); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(5px);">
-                    <i class="fas fa-play" style="font-size: 2rem; color: white; margin-left: 5px;"></i>
-                </div>
+            <div class="video-container" style="flex: 1; max-width: 800px; margin: 0 auto; text-align: center;">
+                <video 
+                    style="width: 100%; height: auto; border-radius: 15px; 
+                           box-shadow: 0 0 20px rgba(0, 243, 255, 0.3), 0 0 40px rgba(0, 243, 255, 0.2);
+                           border: 1px solid rgba(0, 243, 255, 0.3);
+                           max-height: 450px;"
+                    controls
+                    playsinline>
+                    <!-- Try multiple formats for maximum compatibility -->
+                    <source src="assets/vid/Commercial.mp4" type="video/mp4">
+                    <source src="assets/vid/Commercial.webm" type="video/webm">
+                    <source src="assets/vid/Commercial.mov" type="video/quicktime">
+                    <div style="padding: 20px; background: rgba(0,0,0,0.5); border-radius: 10px; margin-top: 20px;">
+                        <p>Your browser doesn't support HTML5 video. Please convert your video to MP4 format.</p>
+                        <p>You can use free online tools like <a href="https://cloudconvert.com/mov-to-mp4" target="_blank" style="color: #00f3ff;">CloudConvert</a> to convert your .mov file to .mp4 format.</p>
+                        <p>Required format: MP4 (H.264 video codec, AAC audio codec)</p>
+                    </div>
+                </video>
             </div>
         </div>
     </section>
@@ -640,6 +648,81 @@
             });
         }
     </script>
+    <!-- Video Player Functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Video player functionality
+            const videoContainers = document.querySelectorAll('.video-container');
+            
+            videoContainers.forEach(container => {
+                const video = container.querySelector('video');
+                const playButton = container.querySelector('.play-button');
+                const videoControls = container.querySelector('.video-controls');
+                const currentTimeEl = container.querySelector('.current-time');
+                const durationEl = container.querySelector('.duration');
+                
+                // Format time in MM:SS format
+                const formatTime = (seconds) => {
+                    const minutes = Math.floor(seconds / 60);
+                    seconds = Math.floor(seconds % 60);
+                    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                };
+                
+                // Update time display
+                const updateTime = () => {
+                    if (durationEl) {
+                        currentTimeEl.textContent = formatTime(video.currentTime);
+                        durationEl.textContent = formatTime(video.duration || 0);
+                    }
+                };
+                
+                // Set up video event listeners
+                if (video) {
+                    // Update time display when metadata is loaded
+                    video.addEventListener('loadedmetadata', () => {
+                        if (durationEl) {
+                            durationEl.textContent = formatTime(video.duration);
+                        }
+                    });
+                    
+                    // Update time as video plays
+                    video.addEventListener('timeupdate', updateTime);
+                    
+                    // Show/hide play button based on playback state
+                    video.addEventListener('play', () => {
+                        if (playButton) playButton.style.display = 'none';
+                        container.classList.add('playing');
+                    });
+                    
+                    video.addEventListener('pause', () => {
+                        if (playButton && !video.ended) {
+                            playButton.style.display = 'flex';
+                        }
+                        container.classList.remove('playing');
+                    });
+                    
+                    video.addEventListener('ended', () => {
+                        if (playButton) playButton.style.display = 'flex';
+                        container.classList.remove('playing');
+                    });
+                }
+                
+                // Show controls on hover
+                if (container && videoControls) {
+                    container.addEventListener('mouseenter', () => {
+                        videoControls.style.opacity = '1';
+                    });
+                    
+                    container.addEventListener('mouseleave', () => {
+                        if (!container.classList.contains('playing')) {
+                            videoControls.style.opacity = '0';
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    
     <!-- Cart Functionality -->
     <script src="js/cart.js"></script>
 </body>
