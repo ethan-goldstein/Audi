@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('audiCart', JSON.stringify([]));
     }
 
+    // Normalize any legacy/invalid items so UI doesn't show nulls or missing images
+    normalizeCart();
+
     // Update cart count on page load
     updateCartCount();
 
@@ -18,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const model = addToCartBtn.getAttribute('data-model');
         const price = parseFloat(addToCartBtn.getAttribute('data-price')) || getModelPrice(model);
-        const image = addToCartBtn.getAttribute('data-image') || 'assets/img/placeholder.jpg';
+        const image = addToCartBtn.getAttribute('data-image') || getModelImage(model);
         
         addToCart(model, price, image);
         
@@ -111,12 +114,18 @@ function addToCart(model, price, image) {
 function getModelPrice(model) {
     // This is now just a fallback - we should be using data-price from the button
     const prices = {
-        'e-tron GT': 99900,
-        'Q4 e-tron': 43900,
-        'Grandsphere': 0,
+        // Sedans
         'R8': 197000,
         'A4': 45000,
-        'RS7': 114000
+        'RS7': 114000,
+        // SUVs
+        'Q8': 72900,
+        'RS Q8': 114900,
+        'Q7': 60400,
+        // Customs / Electric
+        'RS e-tron GT': 143900,
+        'Q4 e-tron': 43900,
+        'Q6 e-tron': 65000
     };
     return prices[model] || 0;
 }
@@ -124,11 +133,67 @@ function getModelPrice(model) {
 // Get image path based on model
 function getModelImage(model) {
     const images = {
-        'R8': 'assets/img/r8-white.png',
-        'A4': 'assets/img/a4-black.png',
-        'RS7': 'assets/img/rs7-blue.png'
+        // Sedans
+        'R8': "assets/img/SEDAN'S/r8-white.png",
+        'A4': "assets/img/SEDAN'S/a4-black.png",
+        'RS7': "assets/img/SEDAN'S/rs7-blue.png",
+        // SUVs
+        'Q8': "assets/img/SUV'S/AudiQ8SUV.jpg.avif",
+        'RS Q8': "assets/img/SUV'S/AudiSQ7SUV.png",
+        'Q7': "assets/img/SUV'S/AudiQ7SUV.png",
+        // Customs / Electric
+        'RS e-tron GT': 'assets/img/ELECTRIC/AudiRS-GTELECTRIC.png',
+        'Q4 e-tron': 'assets/img/ELECTRIC/AudiQ4ELECTRIC.avif.png',
+        'Q6 e-tron': 'assets/img/ELECTRIC/AudiQ6ELECTRIC.avif.png'
     };
-    return images[model] || 'assets/img/placeholder.jpg';
+    return images[model] || images['R8'];
+}
+
+// Normalize items in localStorage cart (fix missing quantity/image/price types)
+function normalizeCart() {
+    try {
+        const raw = localStorage.getItem('audiCart');
+        if (!raw) return;
+        let cart = [];
+        try { cart = JSON.parse(raw) || []; } catch { cart = []; }
+        let changed = false;
+        cart.forEach(item => {
+            // Ensure model is string
+            if (item && typeof item.model !== 'string' && typeof item.name === 'string') {
+                item.model = item.name; // support legacy shape
+                delete item.name;
+                changed = true;
+            }
+            // Quantity default to 1
+            if (!item || typeof item.quantity !== 'number' || isNaN(item.quantity) || item.quantity <= 0) {
+                item.quantity = 1;
+                changed = true;
+            }
+            // Coerce price to number and ensure > 0
+            if (typeof item.price !== 'number') {
+                const p = parseFloat(item.price);
+                item.price = isNaN(p) ? getModelPrice(item.model) : p;
+                changed = true;
+            }
+            if (typeof item.price === 'number' && (isNaN(item.price) || item.price <= 0)) {
+                const fallback = getModelPrice(item.model);
+                if (fallback > 0) {
+                    item.price = fallback;
+                    changed = true;
+                }
+            }
+            // Ensure image exists
+            if (!item.image || typeof item.image !== 'string' || item.image.trim() === '') {
+                item.image = getModelImage(item.model);
+                changed = true;
+            }
+        });
+        if (changed) {
+            localStorage.setItem('audiCart', JSON.stringify(cart));
+        }
+    } catch (e) {
+        console.warn('normalizeCart error:', e);
+    }
 }
 
 /**
@@ -184,19 +249,24 @@ function loadCartItems() {
         let itemsHTML = '';
         
         cart.forEach((item, index) => {
-            const itemTotal = item.price * item.quantity;
-            const imageUrl = item.image || 'assets/img/placeholder.jpg';
+            const quantity = (typeof item.quantity === 'number' && item.quantity > 0)
+                ? item.quantity
+                : 1;
+            const imageUrl = item.image || getModelImage(item.model) || 'assets/img/placeholder.jpg';
+            const bgUrl = encodeURI(imageUrl);
+            const priceNum = typeof item.price === 'number' ? item.price : parseFloat(item.price) || getModelPrice(item.model);
+            const itemTotal = priceNum * quantity;
             
             itemsHTML += `
                 <div class="cart-item" data-model="${escapeHtml(item.model)}">
                     <button class="cart-item-remove" data-index="${index}" aria-label="Remove ${escapeHtml(item.model)}">
                         <i class="fas fa-times"></i>
                     </button>
-                    <div class="item-image">
-                        <img src="${escapeHtml(imageUrl)}" 
+                    <div class="item-image" style="background-image: url(${bgUrl});">
+                        <img src="${imageUrl}" 
                              alt="${escapeHtml(item.model)}" 
                              loading="lazy"
-                             onerror="this.onerror=null; this.src='assets/img/placeholder.jpg';">
+                             onerror="this.onerror=null; this.style.display='none';">
                     </div>
                     <div class="item-details">
                         <h3>Audi ${escapeHtml(item.model)}</h3>
@@ -206,7 +276,7 @@ function loadCartItems() {
                                     aria-label="Decrease quantity" ${item.quantity <= 1 ? 'disabled' : ''}>
                                 <i class="fas fa-minus"></i>
                             </button>
-                            <span class="quantity">${item.quantity}</span>
+                            <span class="quantity">${quantity}</span>
                             <button class="quantity-btn plus" data-index="${index}" 
                                     aria-label="Increase quantity">
                                 <i class="fas fa-plus"></i>

@@ -374,6 +374,14 @@
             box-shadow: 0 5px 15px rgba(0, 102, 204, 0.2);
         }
         
+        /* Align and size the secure checkout line under the button */
+        .secure-checkout {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+        
         .empty-cart {
             text-align: center;
             padding: 60px 20px;
@@ -571,14 +579,9 @@
             </div>
             
             <div class="summary">
-                <h2 class="summary-title">Order Summary</h2>
                 <div class="summary-details" id="cart-summary">
                     <!-- Cart summary will be loaded dynamically here -->
                 </div>
-                <button class="checkout-btn" id="checkout-btn" disabled>Proceed to Checkout</button>
-                <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: var(--text-muted);">
-                    <i class="fas fa-lock"></i> Secure Checkout
-                </p>
             </div>
         </div>
         
@@ -629,11 +632,18 @@
                 itemElement.className = 'cart-item';
                 itemElement.dataset.index = index;
                 
-                const price = typeof item.price === 'string' ? parseFloat(item.price) : item.price;
+                let price = typeof item.price === 'string' ? parseFloat(item.price) : item.price;
+                if (isNaN(price) || price <= 0) {
+                    price = (typeof getModelPrice === 'function') ? getModelPrice(item.model) : 0;
+                }
                 const quantity = typeof item.quantity === 'string' ? parseInt(item.quantity, 10) : item.quantity;
                 
+                const resolvedImage = item.image || 'https://via.placeholder.com/150';
+                const bgUrl = encodeURI(resolvedImage);
                 itemElement.innerHTML = `
-                    <div class="item-image" style="background-image: url('${item.image || 'https://via.placeholder.com/150'}');"></div>
+                    <div class="item-image" style="background-image: url(${bgUrl});" data-url="${resolvedImage}">
+                        <img src="${resolvedImage}" alt="${item.model}" loading="lazy" onerror="this.style.display='none'">
+                    </div>
                     <div class="item-details">
                         <div>
                             <div class="item-header">
@@ -696,8 +706,11 @@
             let subtotal = 0;
             
             cart.forEach(item => {
-                const price = typeof item.price === 'string' ? parseFloat(item.price) : item.price;
+                let price = typeof item.price === 'string' ? parseFloat(item.price) : item.price;
                 const quantity = typeof item.quantity === 'string' ? parseInt(item.quantity, 10) : item.quantity;
+                if (isNaN(price) || price <= 0) {
+                    price = (typeof getModelPrice === 'function') ? getModelPrice(item.model) : 0;
+                }
                 subtotal += price * quantity;
             });
             
@@ -714,7 +727,8 @@
             };
             
             // Update the summary in the DOM
-            const summaryElement = document.querySelector('.cart-summary');
+            // Target the correct summary container
+            const summaryElement = document.querySelector('#cart-summary') || document.querySelector('.cart-summary');
             if (summaryElement) {
                 summaryElement.innerHTML = `
                     <h3 class="summary-title">Order Summary</h3>
@@ -730,13 +744,22 @@
                         <span>Total</span>
                         <span class="summary-value total-amount">${formatCurrency(total)}</span>
                     </div>
-                    <button class="checkout-btn" ${cart.length === 0 ? 'disabled' : ''}>
+                    <button id="checkout-btn" class="checkout-btn" ${cart.length === 0 ? 'disabled' : ''}>
                         <i class="fas fa-lock"></i> Proceed to Checkout
                     </button>
                     <p class="secure-checkout">
                         <i class="fas fa-shield-alt"></i> Secure Checkout
                     </p>
                 `;
+
+                // Wire checkout navigation
+                const btn = summaryElement.querySelector('#checkout-btn');
+                if (btn) {
+                    btn.addEventListener('click', (e) => {
+                        if (btn.hasAttribute('disabled')) return;
+                        window.location.href = 'checkout.html';
+                    });
+                }
             }
         }
         

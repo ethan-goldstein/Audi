@@ -1,26 +1,83 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Update all Discover More buttons to Add to Cart
-    const buttons = document.querySelectorAll('.home__button');
-    
-    // Model names in order of appearance
-    const models = ['R8', 'A4', 'RS7'];
-    
-    buttons.forEach((button, index) => {
-        if (button.querySelector('span').textContent.trim() === 'Discover More') {
-            button.innerHTML = `
-                <span>Add to Cart</span>
-                <i class="ri-shopping-cart-line"></i>
-            `;
-            button.classList.add('add-to-cart');
-            button.setAttribute('data-model', models[index % models.length]);
-            
-            // Change from <a> to <button> if needed
-            if (button.tagName === 'A') {
-                const newButton = document.createElement('button');
-                newButton.className = button.className;
-                newButton.innerHTML = button.innerHTML;
-                button.parentNode.replaceChild(newButton, button);
-            }
-        }
-    });
+    // Convert Discover More buttons into Add to Cart and attach accurate data attributes
+    // Works across sedans, suvs, and customs pages without hardcoding DOM order
+
+    // Known prices (fallbacks). If a model isn't here, price attribute will be omitted and cart.js fallback may apply.
+    const priceByModel = {
+        // Sedans
+        'R8': 197000,
+        'A4': 45000,
+        'RS7': 114000,
+        // SUVs
+        'Q8': 73500,
+        'RS Q8': 125800,
+        'Q7': 60400,
+        // EVs / Customs
+        'RS e-tron GT': 143900,
+        'Q4 e-tron': 43900,
+        'Q6 e-tron': 65000
+    };
+
+    // Helper to safely get text
+    const getText = (el) => (el && el.textContent ? el.textContent.trim() : '');
+
+    function processArticle(article) {
+        if (!article) return;
+        const btn = article.querySelector('.home__button');
+        if (!btn) return;
+
+        // Avoid double-processing
+        if (btn.classList.contains('add-to-cart')) return;
+
+        const span = btn.querySelector('span');
+        if (!span) return;
+
+        const isDiscover = getText(span) === 'Discover More';
+        if (!isDiscover) return;
+
+        // Extract model and image from the card
+        const modelEl = article.querySelector('.home__subtitle');
+        const imgEl = article.querySelector('.home__img');
+
+        const model = getText(modelEl);
+        const image = imgEl && imgEl.getAttribute('src') ? imgEl.getAttribute('src') : 'assets/img/placeholder.jpg';
+        const price = priceByModel[model];
+
+        // Build the new button (prefer <button> semantics)
+        const newButton = document.createElement('button');
+        newButton.className = btn.className;
+        newButton.classList.add('add-to-cart');
+        newButton.innerHTML = `
+            <span>Add to Cart</span>
+            <i class="ri-shopping-cart-line"></i>
+        `;
+        if (model) newButton.setAttribute('data-model', model);
+        if (image) newButton.setAttribute('data-image', image);
+        if (typeof price === 'number') newButton.setAttribute('data-price', String(price));
+
+        // Replace existing element (anchor or button) with new functional button
+        if (btn.parentNode) btn.parentNode.replaceChild(newButton, btn);
+    }
+
+    // Initial pass
+    document.querySelectorAll('.home__article').forEach(processArticle);
+
+    // Observe for Swiper's cloned slides or dynamic updates
+    const wrapper = document.querySelector('.swiper-wrapper');
+    if (wrapper && 'MutationObserver' in window) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach(m => {
+                m.addedNodes && m.addedNodes.forEach(node => {
+                    if (!(node instanceof Element)) return;
+                    if (node.classList && node.classList.contains('home__article')) {
+                        processArticle(node);
+                    } else {
+                        // If a subtree contains articles
+                        node.querySelectorAll && node.querySelectorAll('.home__article').forEach(processArticle);
+                    }
+                });
+            });
+        });
+        observer.observe(wrapper, { childList: true, subtree: true });
+    }
 });
