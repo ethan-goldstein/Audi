@@ -5,17 +5,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Known prices (fallbacks). If a model isn't here, price attribute will be omitted and cart.js fallback may apply.
     const priceByModel = {
         // Sedans
-        'R8': 197000,
-        'A4': 45000,
-        'RS7': 114000,
+        'R8': 135000,
+        'A4': 55000,
+        'RS7': 145000,
         // SUVs
-        'Q8': 73500,
-        'RS Q8': 125800,
-        'Q7': 60400,
-        // EVs / Customs
-        'RS e-tron GT': 143900,
-        'Q4 e-tron': 43900,
-        'Q6 e-tron': 65000
+        'Q8': 74400,
+        'RS Q8': 136200,
+        'Q7': 60500,
+        // Customs / Electric
+        'RS e-tron GT': 168300,
+        'Q4 e-tron': 49800,
+        'Q6 e-tron': 74000
     };
 
     // Helper to safely get text

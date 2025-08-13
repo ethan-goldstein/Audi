@@ -115,17 +115,17 @@ function getModelPrice(model) {
     // This is now just a fallback - we should be using data-price from the button
     const prices = {
         // Sedans
-        'R8': 197000,
-        'A4': 45000,
-        'RS7': 114000,
+        'R8': 135000,
+        'A4': 55000,
+        'RS7': 145000,
         // SUVs
-        'Q8': 72900,
-        'RS Q8': 114900,
-        'Q7': 60400,
+        'Q8': 74400,
+        'RS Q8': 136200,
+        'Q7': 60500,
         // Customs / Electric
-        'RS e-tron GT': 143900,
-        'Q4 e-tron': 43900,
-        'Q6 e-tron': 65000
+        'RS e-tron GT': 168300,
+        'Q4 e-tron': 49800,
+        'Q6 e-tron': 74000
     };
     return prices[model] || 0;
 }
@@ -169,18 +169,17 @@ function normalizeCart() {
                 item.quantity = 1;
                 changed = true;
             }
-            // Coerce price to number and ensure > 0
+            // Coerce price to number and sync to latest mapping
             if (typeof item.price !== 'number') {
                 const p = parseFloat(item.price);
                 item.price = isNaN(p) ? getModelPrice(item.model) : p;
                 changed = true;
             }
-            if (typeof item.price === 'number' && (isNaN(item.price) || item.price <= 0)) {
-                const fallback = getModelPrice(item.model);
-                if (fallback > 0) {
-                    item.price = fallback;
-                    changed = true;
-                }
+            const mappedPrice = getModelPrice(item.model);
+            if ((typeof mappedPrice === 'number' && mappedPrice > 0) && item.price !== mappedPrice) {
+                // Force-update to the latest price list (handles cases where prices were changed)
+                item.price = mappedPrice;
+                changed = true;
             }
             // Ensure image exists
             if (!item.image || typeof item.image !== 'string' || item.image.trim() === '') {
