@@ -560,6 +560,29 @@ function initializeModels() {
     window.dispatchEvent(new Event('resize'));
 }
 
+// Handle browser back/forward button with URL hash changes
+function handleHashChange() {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+        const section = document.getElementById(hash);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    } else {
+        // Scroll to top if no hash
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+// Update URL hash without adding to history
+function updateHash(hash) {
+    if (history.pushState) {
+        history.pushState(null, null, '#' + hash);
+    } else {
+        location.hash = '#' + hash;
+    }
+}
+
 // Initialize the application with error handling
 document.addEventListener('DOMContentLoaded', () => {
     try {
@@ -567,11 +590,37 @@ document.addEventListener('DOMContentLoaded', () => {
         initializeModels();
         initializeScrollAnimations();
         initializeInteractions();
+        
+        // Set up event listeners for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        // Update URL with hash
+                        updateHash(targetId);
+                        // Smooth scroll to section
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+        
+        // Handle initial hash
+        if (window.location.hash) {
+            handleHashChange();
+        }
+        
+        // Listen for hash changes (back/forward buttons)
+        window.addEventListener('popstate', handleHashChange);
+        
     } catch (error) {
         console.error('Error initializing application:', error);
     }
 });
-}
 
 // Enhanced scroll-based animations with parallax and 3D effects
 function initializeScrollAnimations() {
